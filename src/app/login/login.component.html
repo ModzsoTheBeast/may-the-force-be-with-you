@@ -1,3 +1,21 @@
-<form>
-  <input type="text">
-</form>
+<div class="login">
+  <section class="login__section">
+    <h2 class="login__subtitle">webstar</h2>
+    <h1 class="login__title">frontend</h1>
+    <form class="login__form" [formGroup]="loginForm" (ngSubmit)="login()">
+      @let usernameControl = loginForm.controls.username; @let passwordControl =
+      loginForm.controls.password;
+      <input
+        class="login__input login__input--username"
+        [formControl]="usernameControl"
+        type="text"
+      />
+      <input
+        class="login__input login__input--password"
+        [formControl]="passwordControl"
+        type="password"
+      />
+      <button class="login__button" type="submit">login</button>
+    </form>
+  </section>
+</div>
