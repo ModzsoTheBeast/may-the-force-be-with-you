@@ -1,5 +1,5 @@
-@use "../../theme/_colors" as color;
-@use "../../theme/_theme" as theme;
+@use "../../theme/_colors" as col;
+@use "../../theme/_mixins" as mixins;
 
 .login {
   width: 100vw;
@@ -18,7 +18,8 @@
   }
 
   &__title {
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
+    //margin-bottom: 20px;
     color: white;
     font-family: "SF Distant Galaxy";
     font-size: 70px;
@@ -26,6 +27,8 @@
 
   &__subtitle {
     color: white;
+    margin: 0;
+
     font-family: "Star Jedi";
     font-size: 30px;
   }
@@ -46,15 +49,15 @@
 
   &__button {
     padding: 10px;
-    background-color: color.$yellow;
-    color: color.$black;
+    background-color: col.$yellow;
+    color: col.$black;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
 
     &:hover {
-      background-color: darken(color.$yellow, theme.$darken-percet);
+      @include mixins.darken-background-color(col.$yellow);
     }
   }
 }

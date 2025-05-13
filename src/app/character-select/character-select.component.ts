@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { register } from 'swiper/element/bundle';
 import { Character } from '@app/@types';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {CounterComponent} from '@shared/counter/counter.component';
 
 @Component({
   selector: 'app-character-select',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, CounterComponent],
   templateUrl: './character-select.component.html',
   styleUrl: './character-select.component.scss',
   encapsulation: ViewEncapsulation.None,

@@ -1,0 +1,9 @@
+@use "sass:color";
+@use "../theme/theme" as theme;
+
+@mixin darken-background-color($base-color) {
+  background-color: color.adjust(
+    $base-color,
+    $lightness: -1 * theme.$darken-percet
+  );
+}

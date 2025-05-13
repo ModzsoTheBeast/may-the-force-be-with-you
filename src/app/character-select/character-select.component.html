@@ -11,40 +11,45 @@
       slides-per-view="1"
       space-between="30"
     >
-      <swiper-slide *ngFor="let character of characters" class="character-slide">
-        <div class="character-card">
-          <div class="character-image-container">
-            <img
-              [src]="
-                '/assets/characters/' + getCharacterImage(character.name) + '.png'
-              "
-              [alt]="character.name"
-              class="character-image"
-            />
-          </div>
-          <div class="character-info">
-            <h2 class="character-name">{{ character.name }}</h2>
-            <p class="character-description">{{ character.description }}</p>
-            <div class="character-stats">
-              <span class="stat" [ngClass]="character.side"
-                >{{ character.side | titlecase }} Side</span
-              >
-              <span class="stat power"
-                >Power: {{ character.abilities.power }}</span
-              >
-              <span
-                class="stat midichlorian"
-                *ngIf="character.abilities.midichlorian > 0"
-              >
-                Midichlorian: {{ character.abilities.midichlorian | number }}
-              </span>
+      @for (character of characters; track character.id) {
+        <swiper-slide class="character-slide">
+          <div class="character-card">
+            <div class="character-image-container">
+              <img
+                [src]="
+                  '/assets/characters/' +
+                  getCharacterImage(character.name) +
+                  '.png'
+                "
+                [alt]="character.name"
+                class="character-image"
+              />
+            </div>
+            <div class="character-info">
+              <h2 class="character-name">{{ character.name }}</h2>
+              <p class="character-description">{{ character.description }}</p>
+              <div class="character-stats">
+                <span class="stat" [ngClass]="character.side"
+                  >{{ character.side | titlecase }} Side</span
+                >
+                <span class="stat power"
+                  >Power: {{ character.abilities.power }}</span
+                >
+                <span
+                  class="stat midichlorian"
+                  *ngIf="character.abilities.midichlorian > 0"
+                >
+                  Midichlorian: {{ character.abilities.midichlorian | number }}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      </swiper-slide>
+        </swiper-slide>
+      }
     </swiper-container>
   </div>
   <div class="description">
     <p>test</p>
+    <app-counter [timestamp]="1576967247"></app-counter>
   </div>
 </div>
