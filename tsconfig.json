@@ -36,12 +36,15 @@
       "@shared/*": [
         "src/app/@shared/*"
       ],
+      "@types": [
+        "src/app/@types/*"
+      ],
       "@types/*": [
         "src/app/@types/*"
       ],
-      "@types": [
-        "src/app/@types/*"
-      ]
+      "@env/*": [
+        "src/environments/*"
+      ],
     }
   },
   "angularCompilerOptions": {
