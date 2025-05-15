@@ -12,4 +12,5 @@ export type Character = {
 export type ExtendedCharacter = Character & {
   selected: boolean;
   visible: boolean;
+  health: number;
 }

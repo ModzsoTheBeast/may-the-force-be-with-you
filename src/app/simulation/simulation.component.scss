@@ -1,0 +1,132 @@
+.simulation-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.body {
+  display: grid;
+  place-items: center;
+  gap: 2rem;
+  height: calc(100% - 72px);
+}
+
+.char {
+  text-align: center;
+  transition: transform 0.3s ease;
+  position: relative;
+
+  &.attacking {
+    animation: pulse 2s infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.title {
+  font-family: "Star Jedi", monospace;
+  font-size: 60px;
+  color: white;
+  text-align: center;
+}
+
+.character-name {
+  font-family: "Star Jedi", monospace;
+  font-size: 40px;
+  color: white;
+
+  &--left {
+    text-align: left;
+  }
+
+  &--right {
+    text-align: right;
+  }
+}
+
+.vs {
+  font-family: "SF Distant Galaxy";
+  font-size: 150px;
+  text-transform: uppercase;
+  color: white;
+}
+
+.percent,
+.side {
+  font-size: 24px;
+  color: white;
+}
+
+.progress {
+  width: 100%;
+  background-color: #333;
+  border-radius: 4px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: #4dc5ff;
+  text-align: center;
+  line-height: 20px;
+  color: white;
+  transition: width 0.5s ease-in-out;
+}
+
+.combat-status {
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+
+  h2 {
+    font-family: "Star Jedi", monospace;
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+
+  .attacker {
+    font-size: 24px;
+    color: #ffdd57;
+    animation: blink 1s infinite;
+  }
+
+  &.winner h2 {
+    color: #4dc5ff;
+    animation: winner 1.5s infinite alternate;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes winner {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}

@@ -1,6 +1,48 @@
 <app-page-shell>
   <div class="character-edit-content">
-    <h1>Edit Character</h1>
-    <!-- Character edit form will go here -->
+    <div class="d-flex align-items-center justify-content-between align-items-center mb-4">
+      <button class="character-edit__header__back-button btn d-flex align-items-center gap-2" (click)="back()">
+        <img
+          class="character-edit__header__back-button__icon"
+          src="/assets/ui/chevron.png"
+          alt="back-button"
+        />
+        <span class="character-edit__header__back-button__text">
+          Karakterek szerkesztése
+        </span>
+      </button>
+      <app-dynamic-button
+        [text]="'Új karakter hozzáadása'"
+        [variant]="'outline'"
+        (onClick)="addCharacter()"
+      ></app-dynamic-button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-sm table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col">NÉV</th>
+            <th scope="col">OLDAL</th>
+            <th scope="col">KÜLÖNLEGES ERŐ</th>
+            <th scope="col">MIDIKLORIÁN</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let character of characters()">
+            <td>{{ character.name }}</td>
+            <td>{{ character.side === "DARK" ? "Sötét" : "Világos" }}</td>
+            <td>{{ character.abilities.power }}</td>
+            <td>{{ character.abilities.midichlorian }}</td>
+            <td class="d-flex justify-content-between">
+              <button class="btn button--copy">Másolás</button>
+              <button class="btn button--edit">Módosítás</button>
+              <button class="btn button--delete">Törlés</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </app-page-shell>

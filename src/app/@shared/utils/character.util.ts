@@ -1,4 +1,4 @@
-import {Character, ExtendedCharacter} from '@app/@types';
+import { Character, ExtendedCharacter } from '@app/@types';
 
 export function getCharacterImageUrl(characterId: string): string {
   const nameMap: { [key: string]: string } = {
@@ -22,7 +22,11 @@ export function getCharacterImageUrl(characterId: string): string {
 
 export function mapCharacters(character: Character[]): ExtendedCharacter[] {
   return character.map((char: Character, index: number): ExtendedCharacter => {
-      return {...char, selected: false, visible: index === 0 ? true : false}
-    }
-  )
+    return {
+      ...char,
+      selected: false,
+      visible: index === 0 ? true : false,
+      health: 100,
+    };
+  });
 }

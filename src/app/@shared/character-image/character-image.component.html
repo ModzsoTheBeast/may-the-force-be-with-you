@@ -1,5 +1,13 @@
 <div class="character-image-container">
-  <span class="character-image-container__background"></span>
+  <div
+    [ngClass]="{
+    'character-image-container__background': true,
+    'character-image-container__background--left': lookDirection() === Direction.LEFT,
+    'character-image-container__background--right': lookDirection() === Direction.RIGHT,
+    'character-image-container__background--dark': backgroundColor() === 'grey',
+    'character-image-container__background--light': backgroundColor() === 'white',
+    }"
+  ></div>
   <img
     [src]="'/assets/characters/' + characterId() + '.png'"
     [alt]="characterId()"

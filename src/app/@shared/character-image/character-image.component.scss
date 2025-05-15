@@ -11,14 +11,30 @@
     position: absolute;
     aspect-ratio: 1;
     top: 20%;
-    right: .5rem;
     border-radius: 100%;
     background: linear-gradient(0deg, orange, yellow);
+
+    &--left {
+      right: 0.5rem;
+    }
+
+    &--right {
+      left: 0.5rem;
+    }
+
+    &--dark {
+      background: linear-gradient(0deg, grey, darkgrey);
+    }
+
+    &--light {
+      background: linear-gradient(0deg, lightgrey, white);
+    }
   }
 
   &__image {
     z-index: 2;
     height: 100%;
+    width: 100%;
     padding: 1rem;
   }
 }

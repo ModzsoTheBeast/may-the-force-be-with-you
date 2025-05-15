@@ -24,7 +24,7 @@
     }
   }
 
-  &__logout-btn {
+  &__logout__button {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -33,6 +33,7 @@
     color: white;
     cursor: pointer;
     padding: 8px;
+    font-weight: bold;
 
     &:hover {
       opacity: 0.8;
@@ -45,4 +46,3 @@
     }
   }
 }
-

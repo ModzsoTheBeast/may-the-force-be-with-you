@@ -1,4 +1,4 @@
-import { Injectable, inject, Signal, signal } from '@angular/core';
+import { Injectable, inject, Signal, signal, computed } from '@angular/core';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
 import { CharactersResponse, ExtendedCharacter } from '@app/@types';
@@ -16,6 +16,10 @@ export class CharacterService {
   private readonly mockDataService: MockDataService = inject(MockDataService);
   private readonly http: HttpClient = inject(HttpClient);
   private charactersSignal = signal<ExtendedCharacter[] | undefined>(undefined);
+
+  selectedCharacters = computed(()=> {
+    return this.charactersSignal()?.filter(character => character.selected)
+  })
 
   loadCharacters(): Signal<ExtendedCharacter[] | undefined> {
     if (this.mockDataService.useMockData) {

@@ -1,10 +1,41 @@
-.character-edit-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
+@use "../../theme/_colors" as col;
 
-  h1 {
-    margin-bottom: 2rem;
-    text-align: center;
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: rgba(0, 0, 0, 0.65);
+}
+thead {
+  border-color: col.$yellow;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+tbody {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+.btn {
+  font-weight: bold;
+}
+
+.button--edit {
+  color: col.$yellow;
+}
+.button--copy {
+  color: col.$white;
+}
+.button--delete {
+  color: col.$red;
+}
+
+.character-edit__header__back-button {
+  color: white;
+  font-size: 24px;
+
+  &:hover {
+    opacity: 0.8;
   }
 }
