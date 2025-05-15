@@ -1,0 +1,48 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: transparent;
+  border-bottom: 1px solid white;
+  height: 40px;
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &__icon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    &__name {
+      color: white;
+      font-size: 16px;
+    }
+  }
+
+  &__logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &__icon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+  }
+}
+

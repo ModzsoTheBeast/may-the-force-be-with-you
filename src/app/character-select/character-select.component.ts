@@ -5,11 +5,12 @@ import { register } from 'swiper/element/bundle';
 import { Character } from '@app/@types';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {CounterComponent} from '@shared/counter/counter.component';
+import { PageHeaderComponent } from "../@shared/page-header/page-header.component";
 
 @Component({
   selector: 'app-character-select',
   standalone: true,
-  imports: [RouterModule, CommonModule, CounterComponent],
+  imports: [RouterModule, CommonModule, CounterComponent, PageHeaderComponent],
   templateUrl: './character-select.component.html',
   styleUrl: './character-select.component.scss',
   encapsulation: ViewEncapsulation.None,

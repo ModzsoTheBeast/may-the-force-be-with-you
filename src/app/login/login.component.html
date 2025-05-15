@@ -2,20 +2,56 @@
   <section class="login__section">
     <h2 class="login__subtitle">webstar</h2>
     <h1 class="login__title">frontend</h1>
-    <form class="login__form" [formGroup]="loginForm" (ngSubmit)="login()">
-      @let usernameControl = loginForm.controls.username; @let passwordControl =
-      loginForm.controls.password;
-      <input
-        class="login__input login__input--username"
-        [formControl]="usernameControl"
-        type="text"
-      />
-      <input
-        class="login__input login__input--password"
-        [formControl]="passwordControl"
-        type="password"
-      />
-      <button class="login__button" type="submit">login</button>
+    <form
+      class="login__form needs-validation"
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
+    >
+      @let usernameControl = loginForm.controls.username; @let passwordControl
+      =loginForm.controls.password;
+      <div class="input-group mb-3 has-validation">
+        <label class="login__label" for="username-input">Felhasználónév</label>
+        <input
+          id="username-input"
+          class="login__input login__input--username form-control"
+          [formControl]="usernameControl"
+          [class.is-invalid]="
+            usernameControl.invalid && usernameControl.touched
+          "
+          type="text"
+          placeholder="mail@example.com"
+        />
+        @if (usernameControl.hasError('required') && usernameControl.touched) {
+        <div class="invalid-feedback">Kötelező!</div>
+        } @if (usernameControl.hasError('email') && usernameControl.touched) {
+        <div class="invalid-feedback">Invalid email format!</div>
+        } @if (usernameControl.hasError('minlength') && usernameControl.touched)
+        {
+        <div class="invalid-feedback">Minimum 3 karakter!</div>
+        }
+      </div>
+      <div class="input-group mb-3">
+        <label class="login__label" for="password-input">Jelszó</label>
+        <input
+          id="password-input"
+          class="login__input login__input--password form-control"
+          [formControl]="passwordControl"
+          [class.is-invalid]="
+            passwordControl.invalid && passwordControl.touched
+          "
+          type="password"
+          placeholder="************"
+        />
+        @if (passwordControl.hasError('required') && passwordControl.touched) {
+        <div class="invalid-feedback">Kötelező!</div>
+        } @if (passwordControl.hasError('minlength') && passwordControl.touched)
+        {
+        <div class="invalid-feedback">Minimum 3 karakter!</div>
+        }
+      </div>
+      <button class="btn btn-warning login__button" type="submit">
+        Belépés
+      </button>
     </form>
   </section>
 </div>

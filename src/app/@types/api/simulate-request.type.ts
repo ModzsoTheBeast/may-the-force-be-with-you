@@ -1,4 +1,4 @@
-export type SimulateRequestType = {
+export type SimulateRequest = {
   dark: string;
   light: string;
-}
+};

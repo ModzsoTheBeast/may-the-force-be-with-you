@@ -1,12 +1,28 @@
-import { Injectable } from '@angular/core';
-import {environment} from '@env/environment';
+import { Injectable, inject } from '@angular/core';
+import { environment } from '@env/environment';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import {
+  SIMULATION_RESULT_MOCK,
+} from './mocks/simulate.mock';
+import { SimulateRequest, SimulateResponse } from '@app/@types';
+import { MockDataService } from './mock-data.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SimulateService {
+  private readonly API_URL: string = `${environment.apiUrl}simulate/`;
+  private readonly mockDataService = inject(MockDataService);
 
-  API_URL: string = `${environment.apiUrl}simulate/`
+  constructor(private http: HttpClient) {}
 
+  startSimulation(characters: SimulateRequest): Observable<SimulateResponse> {
+    if (this.mockDataService.useMockData) {
+      console.log('Using mock data for simulation start');
+      return of(SIMULATION_RESULT_MOCK);
+    }
 
+    return this.http.post<SimulateResponse>(this.API_URL, characters);
+  }
 }

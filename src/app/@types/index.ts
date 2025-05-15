@@ -1,15 +1,11 @@
 //export form types
-export * from './form/login-form.type'
+export * from './form';
 
 //export api types
-export * from './api/auth-request.type'
-export * from './api/response-error.type'
-export * from './api/auth-response.type'
-export * from './api/simulate-request.type'
-export * from './api/simulate-response.type'
+export * from './api';
+
+//export enums
+export * from './enums';
 
 //export ui types
-export * from './ui/character.type'
-export * from './ui/character-abilities.type'
-export * from './ui/side.type'
-export * from './ui/user.type'
+export * from './ui';
