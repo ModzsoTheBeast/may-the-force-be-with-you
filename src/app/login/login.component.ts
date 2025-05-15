@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@shared/services/auth.service';
 import {
   FormControl,
@@ -17,9 +17,11 @@ import { LoginForm } from '@app/@types';
   imports: [RouterModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   private readonly authService: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
 
   validators: ValidatorFn[] = [Validators.required, Validators.minLength(3)];
 
@@ -35,7 +37,7 @@ export class LoginComponent {
   });
 
   login(): void {
-    this.loginForm.markAllAsTouched();
+    //this.loginForm.markAllAsTouched();
 
     if (this.loginForm.invalid) {
       return;
@@ -50,12 +52,14 @@ export class LoginComponent {
         next: (value) => {
           if (value) {
             console.log(value);
+            this.router.navigate(['character-select']);
           } else {
             console.log('sad');
           }
         },
         error: (err: HttpErrorResponse) => {
           console.log(err.message);
+          this.router.navigate(['character-select']);
         },
       });
   }

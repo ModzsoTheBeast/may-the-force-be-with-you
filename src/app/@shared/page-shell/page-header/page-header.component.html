@@ -6,19 +6,17 @@
       alt="User icon"
     />
     <span class="page-header__user__name">
-      {{ user?.firstName }} {{ user?.lastName }}
+      {{ user()?.firstName }} {{ user()?.lastName }}
     </span>
   </div>
   <div class="page-header__logout">
     <button class="page-header__logout-btn" (click)="logout()">
+      <span class="page-header__logout-btn__text"> Úrhajó elhagyása </span>
       <img
         class="page-header__logout-btn__icon"
         src="/assets/icons/logout@3x.png"
         alt="Logout icon"
       />
-      <span class="page-header__logout-btn__text">
-        Úrhajó elhagyása
-      </span>
     </button>
   </div>
 </div>

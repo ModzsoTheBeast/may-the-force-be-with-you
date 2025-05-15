@@ -1,0 +1,77 @@
+.special-power {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  overflow: hidden;
+  flex-direction: row;
+  width: fit-content;
+
+  .star-icon-container{
+    background: orange;
+    width: 60px;
+    height: 60px;
+    position: relative;
+
+    img {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      top: 10px;
+      left: 10px;
+    }
+  }
+
+  .side-icon-container {
+    background: white;
+    width: 60px;
+    height: 60px;
+    position: relative;
+
+    .side-icon-container--dark {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: black;
+      top: 5px;
+      left: 5px;
+    }
+  }
+
+}
+
+
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  width: 60px;
+  height: 60px;
+  background: white;
+}
+
+.star-icon {
+  color: #ffc107;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffc107;
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: 16px;
+  color: white;
+  font-weight: 500;
+}

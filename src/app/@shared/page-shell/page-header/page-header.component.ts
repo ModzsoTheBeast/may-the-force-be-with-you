@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '@app/@shared/services/auth.service';
 
 interface User {
   firstName: string;
@@ -12,13 +13,13 @@ interface User {
   imports: [CommonModule],
   templateUrl: './page-header.component.html',
   styleUrl: './page-header.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageHeaderComponent {
-  user?: User;
+  authService: AuthService = inject(AuthService);
+  user = this.authService.user;
 
-  // This method would typically be connected to an auth service
   logout(): void {
-    console.log('Logout clicked');
-    // Implement actual logout functionality here
+    this.authService.logout()
   }
 }

@@ -1,0 +1,33 @@
+.character-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  align-items: start;
+
+  &__specials {
+    display: flex;
+    gap: 2rem;
+  }
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.5rem;
+
+    &--first,
+    &--last {
+      font-size: 90px;
+      font-family: 'Star Jedi', monospace;
+    }
+  }
+
+  &__description {
+    font-size: 16px;
+    font-family: Poppins, regular, sans-serif;
+  }
+
+  &__modules {
+    width: 100%;
+  }
+}

@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-dynamic-input',
   imports: [],
   templateUrl: './dynamic-input.component.html',
-  styleUrl: './dynamic-input.component.scss'
+  styleUrl: './dynamic-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DynamicInputComponent {
-
-}
+export class DynamicInputComponent {}

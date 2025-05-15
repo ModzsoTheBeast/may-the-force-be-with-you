@@ -1,11 +1,13 @@
-import { Character } from '@app/@types';
+import { Character, CharactersResponse, Side } from '@app/@types';
+import { of } from 'rxjs/internal/observable/of';
+import { Observable } from 'rxjs';
 
 // Individual character mocks based on image assets
 const characters: Character[] = [
   {
-    id: '1',
+    id: 'luke',
     name: 'Luke Skywalker',
-    side: 'LIGHT',
+    side: Side.LIGHT,
     abilities: {
       power: 'Force Push',
       midichlorian: 14500,
@@ -14,9 +16,9 @@ const characters: Character[] = [
     description: 'Jedi Master who defeated the Empire',
   },
   {
-    id: '2',
+    id: 'vader',
     name: 'Darth Vader',
-    side: 'DARK',
+    side: Side.DARK,
     abilities: {
       power: 'Force Choke',
       midichlorian: 27700,
@@ -25,9 +27,9 @@ const characters: Character[] = [
     description: 'Sith Lord and former Jedi Knight',
   },
   {
-    id: '3',
+    id: 'yoda',
     name: 'Yoda',
-    side: 'LIGHT',
+    side: Side.LIGHT,
     abilities: {
       power: 'Force Wisdom',
       midichlorian: 17700,
@@ -36,20 +38,9 @@ const characters: Character[] = [
     description: 'Legendary Jedi Master and trainer',
   },
   {
-    id: '4',
-    name: 'Emperor Palpatine',
-    side: 'DARK',
-    abilities: {
-      power: 'Force Lightning',
-      midichlorian: 20500,
-    },
-    createdTimestamp: Date.now(),
-    description: 'Dark Lord of the Sith and Emperor of the Galactic Empire',
-  },
-  {
-    id: '5',
+    id: 'boba',
     name: 'Boba Fett',
-    side: 'DARK',
+    side: Side.DARK,
     abilities: {
       power: 'Mandalorian Tactics',
       midichlorian: 0,
@@ -58,9 +49,9 @@ const characters: Character[] = [
     description: 'Legendary bounty hunter known for his ruthless efficiency',
   },
   {
-    id: '6',
+    id: 'grievous',
     name: 'General Grievous',
-    side: 'DARK',
+    side: Side.DARK,
     abilities: {
       power: 'Lightsaber Combat',
       midichlorian: 0,
@@ -69,9 +60,9 @@ const characters: Character[] = [
     description: 'Cyborg Supreme Commander of the Droid Army',
   },
   {
-    id: '7',
+    id: 'solo',
     name: 'Han Solo',
-    side: 'LIGHT',
+    side: Side.LIGHT,
     abilities: {
       power: 'Blaster Accuracy',
       midichlorian: 0,
@@ -80,9 +71,9 @@ const characters: Character[] = [
     description: 'Corellian smuggler and captain of the Millennium Falcon',
   },
   {
-    id: '8',
+    id: 'rey',
     name: 'Rey',
-    side: 'LIGHT',
+    side: Side.LIGHT,
     abilities: {
       power: 'Force Healing',
       midichlorian: 15000,
@@ -92,9 +83,9 @@ const characters: Character[] = [
       'Force-sensitive scavenger from Jakku who joined the Resistance',
   },
   {
-    id: '9',
+    id: 'kenobi',
     name: 'Obi-Wan Kenobi',
-    side: 'LIGHT',
+    side: Side.LIGHT,
     abilities: {
       power: 'Defensive Lightsaber',
       midichlorian: 13400,
@@ -103,9 +94,9 @@ const characters: Character[] = [
     description: 'Jedi Master who trained Anakin and Luke Skywalker',
   },
   {
-    id: '10',
+    id: 'maul',
     name: 'Darth Maul',
-    side: 'DARK',
+    side: Side.DARK,
     abilities: {
       power: 'Double-bladed Lightsaber',
       midichlorian: 12000,
@@ -114,9 +105,9 @@ const characters: Character[] = [
     description: 'Sith Lord trained by Darth Sidious',
   },
   {
-    id: '11',
+    id: 'stormtrooper',
     name: 'Stormtrooper',
-    side: 'DARK',
+    side: Side.DARK,
     abilities: {
       power: 'Imperial Training',
       midichlorian: 0,
@@ -125,9 +116,9 @@ const characters: Character[] = [
     description: 'Elite shock troops of the Galactic Empire',
   },
   {
-    id: '12',
+    id: 'phasma',
     name: 'Captain Phasma',
-    side: 'DARK',
+    side: Side.DARK,
     abilities: {
       power: 'Combat Expertise',
       midichlorian: 0,
@@ -136,9 +127,9 @@ const characters: Character[] = [
     description: "Commander of the First Order's stormtrooper legions",
   },
   {
-    id: '13',
+    id: 'anakin',
     name: 'Anakin Skywalker',
-    side: 'LIGHT',
+    side: Side.LIGHT,
     abilities: {
       power: 'Lightsaber Combat',
       midichlorian: 27000,
@@ -150,6 +141,6 @@ const characters: Character[] = [
 ];
 
 // Export with proper type for API mock
-export const CHARACTERS_RESPONSE_MOCK = {
+export const CHARACTERS_RESPONSE_MOCK$: Observable<CharactersResponse> = of({
   characters: characters,
-};
+});

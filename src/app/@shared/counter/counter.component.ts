@@ -8,6 +8,7 @@ import {
   InputSignal,
   WritableSignal,
   Signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './counter.component.html',
   styleUrl: './counter.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CounterComponent implements OnInit, OnDestroy {
   timestamp: InputSignal<number> = input.required<number>();

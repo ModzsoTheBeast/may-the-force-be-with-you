@@ -1,0 +1,54 @@
+swiper-container {
+  width: 100%;
+  height: 100%;
+  //height: 80vh;
+  --swiper-navigation-color: #ffc107;
+  --swiper-pagination-color: #ffc107;
+  --swiper-pagination-bullet-inactive-color: #ffffff;
+  --swiper-pagination-bullet-inactive-opacity: 0.5;
+}
+
+swiper-slide {
+  width: 400px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.swiper-slide-active {
+    transform: scale(1.05);
+    transition: transform 0.3s;
+  }
+}
+
+.character-card {
+  width: 100%;
+  height: 100%;
+  //background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  //border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  transform: perspective(1000px) rotateY(0deg);
+  transition: transform 0.5s;
+
+  app-character-image {
+    height: 100%;
+  }
+}
+
+// Media queries for responsive design
+@media (max-width: 768px) {
+  swiper-slide {
+    width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  swiper-slide {
+    width: 250px;
+  }
+}

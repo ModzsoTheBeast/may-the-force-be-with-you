@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   SIMULATION_RESULT_MOCK,
 } from './mocks/simulate.mock';
@@ -19,8 +19,7 @@ export class SimulateService {
 
   startSimulation(characters: SimulateRequest): Observable<SimulateResponse> {
     if (this.mockDataService.useMockData) {
-      console.log('Using mock data for simulation start');
-      return of(SIMULATION_RESULT_MOCK);
+      return SIMULATION_RESULT_MOCK;
     }
 
     return this.http.post<SimulateResponse>(this.API_URL, characters);

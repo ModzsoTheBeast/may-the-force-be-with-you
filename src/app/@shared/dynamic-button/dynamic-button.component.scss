@@ -1,1 +1,25 @@
-@use "theme/_colors" as col;
+@use "../../../theme/_colors" as col;
+@use "../../../theme/_mixins" as mx;
+
+.dynamic-button {
+  font-weight: bold;
+
+  &--flat {
+    background: col.$yellow;
+    color: col.$black;
+
+    &:hover {
+      @include mx.darken-background-color(col.$yellow)
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    border: 2px solid col.$yellow;
+    color: col.$white;
+
+    &:hover {
+      @include mx.darken-outline-button(col.$yellow, col.$white)
+    }
+  }
+}

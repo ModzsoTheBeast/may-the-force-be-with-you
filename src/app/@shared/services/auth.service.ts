@@ -1,31 +1,37 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { AuthResponse, LoginDetails } from '@app/@types';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { AUTH_MOCK } from './mocks/auth.mock';
 import { MockDataService } from './mock-data.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly http: HttpClient = inject(HttpClient);
+  private readonly router: Router = inject(Router);
   private readonly API_URL: string = `${environment.apiUrl}authentication/`;
   private currentUserData: WritableSignal<AuthResponse | undefined> = signal<
     AuthResponse | undefined
   >(undefined);
-  private readonly mockDataService = inject(MockDataService);
+  private readonly mockDataService: MockDataService = inject(MockDataService);
+
+  user = computed(()=>{
+    return this.currentUserData()?.user
+  })
 
   login(userDetails: LoginDetails): Observable<AuthResponse | undefined> {
     return this.http.post<AuthResponse>(this.API_URL, userDetails).pipe(
-      tap((result: AuthResponse) => this.currentUserData.set(result)),
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          console.warn('Auth failed with 401, using mock data instead');
-          this.mockDataService.enableMockData();
+      tap((result: AuthResponse): void => this.currentUserData.set(result)),
+      catchError((error: HttpErrorResponse): Observable<AuthResponse | undefined> => {
+        if (error.status === 401 || error.status === 0) {
+          console.warn(`Auth failed with ${error.status}, using mock data instead`);
           this.currentUserData.set(AUTH_MOCK);
-          return of(AUTH_MOCK);
+          this.mockDataService.enableMockData();
+          return of(this.currentUserData());
         }
         throw error;
       })
@@ -33,13 +39,14 @@ export class AuthService {
   }
 
   getAuthToken(): string | null {
-    // If we're using mock data, return the mock token
-    if (this.mockDataService.useMockData) {
-      return AUTH_MOCK.token;
-    }
-
     const userData: AuthResponse | undefined = this.currentUserData();
+    console.log(userData)
     if (!userData) return null;
     return userData.token;
+  }
+
+  logout() {
+    this.currentUserData.set(undefined)
+    this.router.navigate(['login'])
   }
 }

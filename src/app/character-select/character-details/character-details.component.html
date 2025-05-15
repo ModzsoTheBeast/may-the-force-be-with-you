@@ -1,0 +1,37 @@
+<div class="character-details">
+  <div class="character-details__specials">
+    <app-character-special
+      [title]="'oldal'"
+      [text]="visibleCharacter().side === Side.DARK ? 'sötét' : 'világos'"
+      [purpose]="'side'"
+    />
+    <app-character-special
+      [title]="'különleges erő'"
+      [text]="visibleCharacter().abilities.power"
+      [purpose]="'power'"
+    />
+  </div>
+  @let names = visibleCharacter().name.split(' ');
+  <h1 class="character-details__name">
+    <span class="character-details__name--first">{{ names[0] }}</span>
+    <span class="character-details__name--last">{{ names[1] }}</span>
+  </h1>
+  <p class="character-details__description">
+    {{ visibleCharacter().description }}
+  </p>
+  <div class="character-details__modules">
+    <app-character-module title="Szimuláció" subtitle="Válassz két karaktert ellentétes oldalakról">
+      <app-dynamic-button
+        [variant]="'outline'"
+        [disabled]="visibleCharacter().selected"
+        [text]="visibleCharacter().selected ? 'Karakter kiválasztva' : 'Karakter kiválasztása'"
+        (onClick)="selectCharacter()"
+      />
+      <app-dynamic-button [text]="'Küzdelem indítása'" (onClick)="startSimulation()" />
+    </app-character-module>
+    <hr class="character-details__divider" />
+    <app-character-module title="CRUD kezelés" subtitle="Karakterszerkesztő megnyitása">
+      <app-dynamic-button [text]="'Karakterek szerkesztése'" (onClick)="editCharacters()" />
+    </app-character-module>
+  </div>
+</div>

@@ -8,3 +8,8 @@ export type Character = {
   createdTimestamp: number;
   description: string;
 }
+
+export type ExtendedCharacter = Character & {
+  selected: boolean;
+  visible: boolean;
+}

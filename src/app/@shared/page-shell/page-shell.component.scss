@@ -1,0 +1,15 @@
+.page-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.page-content {
+  flex: 1;
+  padding: 4rem;
+  height: calc(100vh - 65px); //TODO: add  to var
+}

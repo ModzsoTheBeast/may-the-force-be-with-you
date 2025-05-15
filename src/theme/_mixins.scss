@@ -7,3 +7,14 @@
     $lightness: -1 * theme.$darken-percet
   );
 }
+
+@mixin darken-outline-button($bg-color, $text-color) {
+  border-color: color.adjust(
+    $bg-color,
+    $lightness: -1 * theme.$darken-percet
+  );
+  color: color.adjust(
+    $text-color,
+    $lightness: -1 * theme.$darken-percet
+  );
+}

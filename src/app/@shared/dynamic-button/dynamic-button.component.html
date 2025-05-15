@@ -1,1 +1,13 @@
-<button (click)="onClick.emit()">{{text()}}</button>
+<button
+  (click)="onClick.emit()"
+  type="button"
+  [disabled]="disabled()"
+  [ngClass]="{
+    'dynamic-button': true,
+    'dynamic-button--flat': variant() === 'flat',
+    'dynamic-button--outline': variant() === 'outline'
+  }"
+  class="btn btn-warning"
+>
+  {{text()}}
+</button>

@@ -1,0 +1,19 @@
+<swiper-container
+  #swiperContainer
+  class="character-swiper"
+  navigation="true"
+  pagination="true"
+  keyboard="true"
+  grab-cursor="true"
+  centered-slides="true"
+  slides-per-view="1"
+  space-between="30"
+>
+  @for (character of characters(); track character.id) {
+  <swiper-slide class="character-slide">
+    <div class="character-card">
+      <app-character-image [characterId]="character.id" />
+    </div>
+  </swiper-slide>
+  }
+</swiper-container>
