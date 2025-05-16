@@ -19,6 +19,8 @@
       <app-dynamic-button
         [text]="'Új karakter hozzáadása'"
         [variant]="'outline'"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasRight"
         (onClick)="addCharacter()"
       ></app-dynamic-button>
     </div>
@@ -103,7 +105,8 @@
                 </button>
                 <button
                   class="btn button--edit"
-                  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight"
                   (click)="editCharacter(character)"
                 >
                   Módosítás
@@ -123,12 +126,14 @@
     </div>
   </div>
 
-  @if (sidenav()) {
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-
-      <app-character-sidebar
-        [character]="selectedCharacter()"
-      ></app-character-sidebar>
-    </div>
-  }
+  <div
+    class="offcanvas offcanvas-end"
+    tabindex="-1"
+    id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel"
+  >
+    <app-character-sidebar
+      [character]="selectedCharacter()"
+    ></app-character-sidebar>
+  </div>
 </app-page-shell>

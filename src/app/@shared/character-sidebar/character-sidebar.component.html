@@ -13,24 +13,32 @@
   <form (ngSubmit)="submit()">
     <div class="input-group mb-3">
       <label>Avatár kiválasztása</label>
-      @for (character of characters; track character.uuid) { @let
-      selectedCharPicture = characterForm.controls.avatar.value ===
-      character.id;
-      <app-character-image
-        [characterId]="character.id"
-        [hasBackground]="selectedCharPicture"
-      />
-      }
+      <div class="d-flex flex-row g-1 overflow-x-auto">
+          @for (character of characters; track character.uuid) {
+          @let selectedCharPicture = characterForm.controls.avatar.value ===
+          character.id;
+              <app-character-image
+            [characterId]="character.id"
+            [hasBackground]="selectedCharPicture"
+            [selectable]="true"
+            [customImageStyle]="{padding: 0, width: '150px'}"
+            (onClickEvent)="
+              this.characterForm.controls.avatar.setValue(character.id)
+            "
+          />
+          }
+      </div>
     </div>
     <div class="input-grid">
       @let nameControl = characterForm.controls.name; @let sideControl =
       characterForm.controls.side; @let powerControl =
       characterForm.controls.power; @let midiclorianControl =
       characterForm.controls.midiclorian;
-      <div class="input-group mb-3">
-        <label for="name-input">Név</label>
+      <div class="mb-3">
+        <label class="form-label" for="name-input">Név</label>
         <input
           id="name-input"
+          class="form-control"
           [formControl]="nameControl"
           [class.is-invalid]="nameControl.invalid && !nameControl.untouched"
           type="text"
@@ -40,8 +48,8 @@
         }
       </div>
 
-      <div class="input-group mb-3">
-        <label for="side-select">Oldal</label>
+      <div class="mb-3">
+        <label class="form-label" for="side-select">Oldal</label>
         <select
           class="form-select"
           id="side-select"
@@ -49,11 +57,11 @@
         >
           <option [value]="Side.DARK">Sötét</option>
           <option [value]="Side.LIGHT">Világos</option></select
-        >>
+        >
       </div>
 
-      <div class="input-group mb-3">
-        <label for="power-select">Különleges erő</label>
+      <div class="mb-3">
+        <label class="form-label" for="power-select">Különleges erő</label>
         <select
           class="form-select"
           id="power-select"
@@ -67,13 +75,14 @@
           <option [value]="'Űrcsempész'">Űrcsempész</option>
           <option [value]="'Péncélzat'">Péncélzat</option>
           <option [value]="'Fehér páncélzat'">Fehér páncélzat</option></select
-        >>
+        >
       </div>
 
-      <div class="input-group mb-3">
-        <label for="midi-input">Midikloriánok</label>
+      <div class="mb-3">
+        <label class="form-label" for="midi-input">Midikloriánok</label>
         <input
           id="midi-input"
+          class="form-control"
           [formControl]="midiclorianControl"
           [class.is-invalid]="
             midiclorianControl.invalid && !midiclorianControl.untouched
@@ -88,26 +97,30 @@
     </div>
 
     <div class="mb-3">
-      <label for="description-label" class="description-label"
-        >Description</label
-      >
-      <textarea class="form-control" id="description-label" rows="3"></textarea>
+      <label for="description-label" class="form-label">Description</label>
+      <textarea class="form-control" id="description-label" rows="3" [formControl]="characterForm.controls.description"></textarea>
     </div>
 
     @let char = character(); @if (char) {
-    <label for="counter">Karakter létrehozás óta eltelt idő</label>
-    <app-counter id="counter" [timestamp]="char.createdTimestamp"></app-counter>
+    <div class="time-info form-label">
+      <label for="counter">Karakter létrehozás óta eltelt idő:</label>
+      <p id="counter">{{ (elapsedSeconds$ | async) ?? 0 | elapsedTime }}</p>
+    </div>
     }
-
-    {{ char | json }}
     <div class="actions-wrapper">
       <app-dynamic-button
-         class="w-100"
+        class="w-100"
         [text]="'Mégsem'"
-          [customStyle]="{'width': '100%', 'color': 'black'}"
+        [customStyle]="{ width: '100%', color: 'black' }"
         [variant]="'outline'"
+        (onClick)="cancel()"
       />
-      <app-dynamic-button class="w-100" [text]="'Mentés'" [type]="'submit'" [customStyle]="{'width': '100%'}" />
+      <app-dynamic-button
+        class="w-100"
+        [text]="'Mentés'"
+        [type]="'submit'"
+        [customStyle]="{ width: '100%' }"
+      />
     </div>
   </form>
 </div>

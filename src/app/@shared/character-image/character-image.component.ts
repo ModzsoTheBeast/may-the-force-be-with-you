@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  input,
+  signal, output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Direction, Side } from '@app/@types';
 
@@ -14,7 +19,14 @@ export class CharacterImageComponent {
   lookDirection = input<Direction>(Direction.LEFT);
   backgroundColor = input<string>('yellow');
   hasBackground = input<boolean>(true);
+  selectable = input<boolean>(false);
+  customImageStyle = input<{ [klass: string]: any; }|null|undefined>(null);
+  onClickEvent = output<void>();
 
   protected readonly Direction = Direction;
   protected readonly Side = Side;
+
+  onClick() {
+    this.onClickEvent.emit()
+  }
 }

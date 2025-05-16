@@ -122,10 +122,8 @@ export class SimulationComponent implements OnInit, OnDestroy {
 
     if (!defender) return;
 
-    // Calculate damage based on character's midichlorian level (1-10% of health)
-    const baseDamage = 10; // Base damage per attack
-    const damageMultiplier = attacker.abilities.midichlorian / 100;
-    const damage = Math.round(baseDamage + baseDamage * damageMultiplier);
+    // Calculate random damage between 1 and 10
+    const damage = Math.floor(Math.random() * 10) + 1;
 
     // Update character health
     const updatedCharacters = this.characters().map((char) => {

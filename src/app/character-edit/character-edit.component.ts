@@ -31,7 +31,6 @@ import { CharacterSidebarComponent } from '@app/@shared/character-sidebar/charac
 export class CharacterEditComponent implements OnInit {
   private characterService: CharacterService = inject(CharacterService);
   private router: Router = inject(Router);
-  sidenav = signal<boolean>(false);
   selectedCharacter = signal<ExtendedCharacter | null>(null);
 
   ngOnInit() {
@@ -89,7 +88,6 @@ export class CharacterEditComponent implements OnInit {
 
   editCharacter(character: ExtendedCharacter) {
     this.selectedCharacter.set(character);
-    this.sidenav.set(true);
   }
   copyCharacter(character: ExtendedCharacter) {
     if (!this.characterService.characters) return;
@@ -118,6 +116,7 @@ export class CharacterEditComponent implements OnInit {
   }
 
   addCharacter() {
+    this.selectedCharacter.set(null)
     throw new Error('Method not implemented.');
   }
 
