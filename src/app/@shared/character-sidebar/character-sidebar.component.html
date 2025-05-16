@@ -100,12 +100,14 @@
     }
 
     {{ char | json }}
-    <div>
+    <div class="actions-wrapper">
       <app-dynamic-button
+         class="w-100"
         [text]="'Mégsem'"
+          [customStyle]="{'width': '100%', 'color': 'black'}"
         [variant]="'outline'"
-      ></app-dynamic-button>
-      <app-dynamic-button [text]="'Mentés'"></app-dynamic-button>
+      />
+      <app-dynamic-button class="w-100" [text]="'Mentés'" [type]="'submit'" [customStyle]="{'width': '100%'}" />
     </div>
   </form>
 </div>

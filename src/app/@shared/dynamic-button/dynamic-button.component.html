@@ -1,7 +1,8 @@
 <button
   (click)="onClick.emit()"
-  type="button"
+  [type]="type()"
   [disabled]="disabled()"
+  [ngStyle]="customStyle()"
   [ngClass]="{
     'dynamic-button': true,
     'dynamic-button--flat': variant() === 'flat',

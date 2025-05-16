@@ -6,12 +6,13 @@ import {
   OutputEmitterRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {NgClass} from '@angular/common';
+import {NgClass, NgStyle} from '@angular/common';
 
 @Component({
   selector: 'app-dynamic-button',
   imports: [
-    NgClass
+    NgClass,
+    NgStyle
   ],
   templateUrl: './dynamic-button.component.html',
   styleUrl: './dynamic-button.component.scss',
@@ -19,6 +20,8 @@ import {NgClass} from '@angular/common';
 })
 export class DynamicButtonComponent {
   text: InputSignal<string> = input.required<string>();
+  type: InputSignal<string> = input<string>('button');
+  customStyle: InputSignal<{ [p: string]: any } | null | undefined> = input<{ [p: string]: any } | null | undefined>(null);
   disabled: InputSignal<boolean> = input<boolean>(false);
   variant: InputSignal<'flat' | 'outline'> = input<'flat' | 'outline'>('flat');
   onClick: OutputEmitterRef<void> = output<void>();

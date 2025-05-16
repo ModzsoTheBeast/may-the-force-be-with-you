@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CharacterForm, ExtendedCharacter, Side } from '@app/@types';
 import { CharacterService } from '../services/character.service';
 import { CharacterImageComponent } from '../character-image/character-image.component';
@@ -14,8 +14,9 @@ import { DynamicButtonComponent } from "../dynamic-button/dynamic-button.compone
     CounterComponent,
     ReactiveFormsModule,
     JsonPipe,
-    DynamicButtonComponent
-],
+    DynamicButtonComponent,
+    FormsModule
+  ],
   templateUrl: './character-sidebar.component.html',
   styleUrl: './character-sidebar.component.scss',
 })
