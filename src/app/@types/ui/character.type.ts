@@ -13,4 +13,5 @@ export type ExtendedCharacter = Character & {
   selected: boolean;
   visible: boolean;
   health: number;
+  uuid: string;
 }

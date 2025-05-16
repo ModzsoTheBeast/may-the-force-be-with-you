@@ -13,6 +13,7 @@ export class CharacterImageComponent {
   characterId = input.required<string>();
   lookDirection = input<Direction>(Direction.LEFT);
   backgroundColor = input<string>('yellow');
+  hasBackground = input<boolean>(true);
 
   protected readonly Direction = Direction;
   protected readonly Side = Side;

@@ -1,0 +1,111 @@
+<div class="offcanvas-header">
+  <h5 id="offcanvasRightLabel">
+    Karakter {{ character() ? "hozzáadása" : "szerkesztése" }}
+  </h5>
+  <button
+    type="button"
+    class="btn-close text-reset"
+    data-bs-dismiss="offcanvas"
+    aria-label="Close"
+  ></button>
+</div>
+<div class="offcanvas-body">
+  <form (ngSubmit)="submit()">
+    <div class="input-group mb-3">
+      <label>Avatár kiválasztása</label>
+      @for (character of characters; track character.uuid) { @let
+      selectedCharPicture = characterForm.controls.avatar.value ===
+      character.id;
+      <app-character-image
+        [characterId]="character.id"
+        [hasBackground]="selectedCharPicture"
+      />
+      }
+    </div>
+    <div class="input-grid">
+      @let nameControl = characterForm.controls.name; @let sideControl =
+      characterForm.controls.side; @let powerControl =
+      characterForm.controls.power; @let midiclorianControl =
+      characterForm.controls.midiclorian;
+      <div class="input-group mb-3">
+        <label for="name-input">Név</label>
+        <input
+          id="name-input"
+          [formControl]="nameControl"
+          [class.is-invalid]="nameControl.invalid && !nameControl.untouched"
+          type="text"
+        />
+        @if (nameControl.hasError('required') && !nameControl.untouched) {
+        <div class="invalid-feedback">Kötelező!</div>
+        }
+      </div>
+
+      <div class="input-group mb-3">
+        <label for="side-select">Oldal</label>
+        <select
+          class="form-select"
+          id="side-select"
+          [formControl]="sideControl"
+        >
+          <option [value]="Side.DARK">Sötét</option>
+          <option [value]="Side.LIGHT">Világos</option></select
+        >>
+      </div>
+
+      <div class="input-group mb-3">
+        <label for="power-select">Különleges erő</label>
+        <select
+          class="form-select"
+          id="power-select"
+          [formControl]="powerControl"
+        >
+          <option [value]="'Erő használata'">Erő használata</option>
+          <option [value]="'Kibernetikus test'">Kibernetikus test</option>
+          <option [value]="'Harcászati tapasztalat'">
+            Harcászati tapasztalat
+          </option>
+          <option [value]="'Űrcsempész'">Űrcsempész</option>
+          <option [value]="'Péncélzat'">Péncélzat</option>
+          <option [value]="'Fehér páncélzat'">Fehér páncélzat</option></select
+        >>
+      </div>
+
+      <div class="input-group mb-3">
+        <label for="midi-input">Midikloriánok</label>
+        <input
+          id="midi-input"
+          [formControl]="midiclorianControl"
+          [class.is-invalid]="
+            midiclorianControl.invalid && !midiclorianControl.untouched
+          "
+          type="text"
+        />
+        @if (midiclorianControl.hasError('required') &&
+        !midiclorianControl.untouched) {
+        <div class="invalid-feedback">Kötelező!</div>
+        }
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="description-label" class="description-label"
+        >Description</label
+      >
+      <textarea class="form-control" id="description-label" rows="3"></textarea>
+    </div>
+
+    @let char = character(); @if (char) {
+    <label for="counter">Karakter létrehozás óta eltelt idő</label>
+    <app-counter id="counter" [timestamp]="char.createdTimestamp"></app-counter>
+    }
+
+    {{ char | json }}
+    <div>
+      <app-dynamic-button
+        [text]="'Mégsem'"
+        [variant]="'outline'"
+      ></app-dynamic-button>
+      <app-dynamic-button [text]="'Mentés'"></app-dynamic-button>
+    </div>
+  </form>
+</div>

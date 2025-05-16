@@ -1,5 +1,14 @@
 @use "../../theme/_colors" as col;
 
+.character-edit-content {
+  overflow-x: auto;
+  height: 100%;
+}
+
+.table-responsive {
+  height: 500px;
+}
+
 .table {
   --bs-table-bg: transparent;
   --bs-table-hover-bg: rgba(0, 0, 0, 0.65);
@@ -9,12 +18,56 @@ thead {
   font-family: "Poppins", sans-serif;
   font-weight: bold;
   font-size: 1rem;
+  position: sticky;
+  top: 0;
+  border-collapse: separate;
+
+  th {
+    cursor: pointer;
+    transition: background-color 0.2s;
+    user-select: none;
+
+    .th-cell {
+      position: relative;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &:last-of-type {
+      background-color: transparent;
+      cursor: default;
+    }
+
+    .sort-indicator {
+      margin-left: 5px;
+      color: col.$yellow;
+      font-size: 0.8rem;
+    }
+  }
 }
 
 tbody {
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   vertical-align: middle;
+
+  tr:hover {
+    .actions {
+      opacity: 1;
+    }
+  }
+}
+
+.actions {
+  opacity: 0;
+
+  .button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
 .btn {
@@ -37,5 +90,40 @@ tbody {
 
   &:hover {
     opacity: 0.8;
+  }
+}
+
+.th-cell {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+}
+
+.sidebar-container {
+  width: 450px;
+  height: 100%;
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }

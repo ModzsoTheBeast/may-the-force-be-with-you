@@ -1,4 +1,5 @@
 <div class="character-image-container">
+  @if (hasBackground()) {
   <div
     [ngClass]="{
     'character-image-container__background': true,
@@ -8,6 +9,7 @@
     'character-image-container__background--light': backgroundColor() === 'white',
     }"
   ></div>
+  }
   <img
     [src]="'/assets/characters/' + characterId() + '.png'"
     [alt]="characterId()"
