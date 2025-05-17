@@ -1,3 +1,5 @@
+@use '../../theme/_colors' as col;
+
 .simulation-content {
   display: flex;
   flex-direction: column;
@@ -8,6 +10,8 @@
   display: grid;
   place-items: center;
   gap: 2rem;
+  width: 100%;
+  overflow-y: auto;
   height: calc(100% - 72px);
 }
 
@@ -39,14 +43,14 @@
 }
 
 .title {
-  font-family: "Star Jedi", monospace;
+  font-family: 'Star Jedi', monospace;
   font-size: 60px;
   color: white;
   text-align: center;
 }
 
 .character-name {
-  font-family: "Star Jedi", monospace;
+  font-family: 'Star Jedi', monospace;
   font-size: 40px;
   color: white;
 
@@ -59,8 +63,22 @@
   }
 }
 
+@media (max-width: 600px) {
+  .title {
+    font-size: 12vw;
+  }
+
+  .character-name {
+    font-size: 8vw;
+  }
+
+  .body {
+    width: 90vw;
+  }
+}
+
 .vs {
-  font-family: "SF Distant Galaxy";
+  font-family: 'SF Distant Galaxy', sans-serif;
   font-size: 150px;
   text-transform: uppercase;
   color: white;
@@ -69,6 +87,7 @@
 .percent,
 .side {
   font-size: 24px;
+  font-family: 'Poppins Black', sans-serif;
   color: white;
 }
 
@@ -77,16 +96,35 @@
   background-color: #333;
   border-radius: 4px;
   margin-top: 10px;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
 }
 
 .progress-bar {
   height: 20px;
-  background-color: #4dc5ff;
   text-align: center;
-  line-height: 20px;
-  color: white;
   transition: width 0.5s ease-in-out;
+  border-radius: 4px;
+
+  &--dark {
+    background-color: col.$red;
+  }
+
+  &--light {
+    background-color: col.$yellow;
+  }
+}
+
+.progress-value {
+  position: absolute;
+  text-align: right;
+  color: white;
+  top: 25px;
+  font-size: 24px;
+  font-family: 'Poppins Bold', sans-serif;
+  padding-right: 5px;
+  box-sizing: border-box;
+  min-width: fit-content;
 }
 
 .combat-status {
@@ -95,7 +133,7 @@
   color: white;
 
   h2 {
-    font-family: "Star Jedi", monospace;
+    font-family: 'Star Jedi', monospace;
     font-size: 30px;
     margin-bottom: 10px;
   }

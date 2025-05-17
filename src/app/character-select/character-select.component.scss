@@ -10,14 +10,26 @@
   color: white;
 }
 
-
 .character-swiper-container {
   width: 50%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
 
   app-character-swiper {
     height: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .description {
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+
+  .character-swiper-container {
+    width: 100%;
   }
 }

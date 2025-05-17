@@ -1,7 +1,10 @@
 <app-page-shell>
   <div class="content">
     <div class="character-swiper-container">
-      <app-character-swiper [characters]="characters() || []" (onSwipeEvent)="onSwipe($event)" />
+      <app-character-swiper
+        [hasActionButtons]="true"
+        [characters]="characters() || []"
+        (onSwipeEvent)="onSwipe($event)" />
     </div>
     <div class="description">
       <app-character-details [visibleCharacter]="visibleCharacter()" />

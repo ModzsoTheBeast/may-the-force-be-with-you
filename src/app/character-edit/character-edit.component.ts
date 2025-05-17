@@ -1,19 +1,25 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-  computed,
-  signal,
-  OnInit,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PageShellComponent } from '@shared/page-shell/page-shell.component';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  signal,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { CharacterSidebarComponent } from '@app/@shared/character-sidebar/character-sidebar.component';
 import { CharacterService } from '@app/@shared/services/character.service';
 import { ExtendedCharacter } from '@app/@types';
 import { DynamicButtonComponent } from '@shared/dynamic-button/dynamic-button.component';
-import { Router } from '@angular/router';
+import { PageShellComponent } from '@shared/page-shell/page-shell.component';
 import { v4 as uuidv4 } from 'uuid';
-import { CharacterSidebarComponent } from '@app/@shared/character-sidebar/character-sidebar.component';
+
+type SortableValue = string | number;
 
 @Component({
   selector: 'app-character-edit',
@@ -28,19 +34,13 @@ import { CharacterSidebarComponent } from '@app/@shared/character-sidebar/charac
   styleUrl: './character-edit.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterEditComponent implements OnInit {
-  private characterService: CharacterService = inject(CharacterService);
-  private router: Router = inject(Router);
+export class CharacterEditComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   selectedCharacter = signal<ExtendedCharacter | null>(null);
-
-  ngOnInit() {
-    this.characterService.loadCharacters();
-  }
-
-  private sortColumn = signal<string>('name');
-  readonly sortDirection = signal<'asc' | 'desc'>('asc');
-
-  readonly characters = computed(() => {
+  sortColumn = signal<string>('name');
+  sortDirection = signal<'asc' | 'desc'>('asc');
+  characters = computed(() => {
     const chars = this.characterService.characters;
     if (!chars) return undefined;
 
@@ -48,19 +48,19 @@ export class CharacterEditComponent implements OnInit {
     const direction = this.sortDirection();
 
     return [...chars].sort((a, b) => {
-      let valueA: any;
-      let valueB: any;
+      let valueA: SortableValue;
+      let valueB: SortableValue;
 
       // Handle nested properties
       if (column === 'power') {
         valueA = a.abilities.power;
         valueB = b.abilities.power;
       } else if (column === 'midichlorian') {
-        valueA = a.abilities.midichlorian;
-        valueB = b.abilities.midichlorian;
+        valueA = Number(a.abilities.midichlorian);
+        valueB = Number(b.abilities.midichlorian);
       } else {
-        valueA = a[column as keyof ExtendedCharacter];
-        valueB = b[column as keyof ExtendedCharacter];
+        valueA = a[column as keyof ExtendedCharacter] as SortableValue;
+        valueB = b[column as keyof ExtendedCharacter] as SortableValue;
       }
 
       // Compare values based on sort direction
@@ -76,11 +76,31 @@ export class CharacterEditComponent implements OnInit {
     });
   });
 
+  private characterService: CharacterService = inject(CharacterService);
+  private router: Router = inject(Router);
+  private elementRef: ElementRef = inject(ElementRef);
+  private renderer: Renderer2 = inject(Renderer2);
+  private scrollListener: (() => void) | null = null;
+
+  ngOnInit() {
+    this.characterService.loadCharacters();
+  }
+
+  ngAfterViewInit() {
+    this.setupStickyHeaderDetection();
+  }
+
+  ngOnDestroy() {
+    if (this.scrollListener) {
+      this.scrollListener();
+    }
+  }
+
   deleteCharacter(character: ExtendedCharacter) {
     if (!this.characterService.characters) return;
 
     const updatedCharacters = this.characterService.characters.filter(
-      (char) => char.uuid !== character.uuid
+      char => char.uuid !== character.uuid
     );
 
     this.characterService.updateCharacters(updatedCharacters);
@@ -89,6 +109,7 @@ export class CharacterEditComponent implements OnInit {
   editCharacter(character: ExtendedCharacter) {
     this.selectedCharacter.set(character);
   }
+
   copyCharacter(character: ExtendedCharacter) {
     if (!this.characterService.characters) return;
 
@@ -116,18 +137,15 @@ export class CharacterEditComponent implements OnInit {
   }
 
   addCharacter() {
-    this.selectedCharacter.set(null)
-    throw new Error('Method not implemented.');
+    this.selectedCharacter.set(null);
   }
 
   sort(column: string) {
     if (this.sortColumn() === column) {
-      // Toggle direction if same column is clicked
       this.sortDirection.update((current: 'asc' | 'desc') =>
         current === 'asc' ? 'desc' : 'asc'
       );
     } else {
-      // Set new column and reset direction to ascending
       this.sortColumn.set(column);
       this.sortDirection.set('asc');
     }
@@ -140,5 +158,22 @@ export class CharacterEditComponent implements OnInit {
 
   isSortedColumn(column: string): boolean {
     return this.sortColumn() === column;
+  }
+
+  private setupStickyHeaderDetection() {
+    const tableContainer =
+      this.elementRef.nativeElement.querySelector('.table-responsive');
+    const tableHeader = this.elementRef.nativeElement.querySelector('thead');
+
+    if (!tableContainer || !tableHeader) return;
+
+    this.scrollListener = this.renderer.listen(tableContainer, 'scroll', () => {
+      const scrollTop = tableContainer.scrollTop;
+      if (scrollTop > 0) {
+        this.renderer.addClass(tableHeader, 'sticky');
+      } else {
+        this.renderer.removeClass(tableHeader, 'sticky');
+      }
+    });
   }
 }

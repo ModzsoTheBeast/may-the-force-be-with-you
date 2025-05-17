@@ -1,17 +1,16 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  CUSTOM_ELEMENTS_SCHEMA,
-  OnInit,
-  viewChild,
-  ElementRef,
-  effect,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  input,
+  OnInit,
   output,
+  viewChild,
 } from '@angular/core';
-import { CharacterImageComponent } from '@shared/character-image/character-image.component';
 import { ExtendedCharacter } from '@app/@types';
+import { CharacterImageComponent } from '@shared/character-image/character-image.component';
 import { register, SwiperContainer } from 'swiper/element';
 
 @Component({
@@ -27,7 +26,8 @@ export class CharacterSwiperComponent implements OnInit, AfterViewInit {
     viewChild.required<ElementRef<SwiperContainer>>('swiperContainer');
   characters = input.required<ExtendedCharacter[]>();
   onSwipeEvent = output<number>();
-
+  hasActionButtons = input<boolean>(true);
+  
   ngOnInit(): void {
     register();
   }
@@ -46,6 +46,39 @@ export class CharacterSwiperComponent implements OnInit, AfterViewInit {
         const currentIndex = container.nativeElement.swiper.activeIndex;
         this.onSwipeEvent.emit(currentIndex);
       });
+    }
+  }
+
+  slidePrev(): void {
+    const container = this.swiperContainer();
+    if (container && container.nativeElement.swiper) {
+      container.nativeElement.swiper.slidePrev();
+      const swiper = container.nativeElement.swiper;
+
+      if (!swiper) {
+        console.error('Swiper not initialized properly');
+        return;
+      }
+
+      const currentIndex = container.nativeElement.swiper.activeIndex;
+      this.onSwipeEvent.emit(currentIndex);
+
+    }
+  }
+
+  slideNext(): void {
+    const container = this.swiperContainer();
+    if (container && container.nativeElement.swiper) {
+      container.nativeElement.swiper.slideNext();
+      const swiper = container.nativeElement.swiper;
+
+      if (!swiper) {
+        console.error('Swiper not initialized properly');
+        return;
+      }
+
+      const currentIndex = container.nativeElement.swiper.activeIndex;
+      this.onSwipeEvent.emit(currentIndex);
     }
   }
 }

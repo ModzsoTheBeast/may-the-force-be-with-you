@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, interval } from 'rxjs';
+import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 @Injectable({
@@ -28,7 +28,7 @@ export class TimeService {
       timestamp > 10000000000 ? Math.floor(timestamp / 1000) : timestamp;
 
     return this.currentTime$.pipe(
-      map((currentTime) => Math.max(0, currentTime - timestampInSeconds)),
+      map(currentTime => Math.max(0, currentTime - timestampInSeconds)),
       shareReplay(1)
     );
   }

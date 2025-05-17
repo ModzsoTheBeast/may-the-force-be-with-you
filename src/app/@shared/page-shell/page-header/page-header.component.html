@@ -3,20 +3,17 @@
     <img
       class="page-header__user__icon"
       src="/assets/icons/user@3x.png"
-      alt="User icon"
-    />
+      alt="User icon" />
     <span class="page-header__user__name">
       {{ user()?.firstName }} {{ user()?.lastName }}
     </span>
   </div>
   <div class="page-header__logout">
-    <button class="page-header__logout__button btn" (click)="logout()">
-      <span class="page-header__logout__button__text"> Űrhajó elhagyása </span>
-      <img
-        class="page-header__logout__button__icon"
-        src="/assets/icons/logout@3x.png"
-        alt="Logout icon"
-      />
-    </button>
+    <app-dynamic-button
+      [text]="'Űrhajó elhagyása'"
+      [iconPostfix]="'logout.png'"
+      [type]="'button'"
+      [variant]="'simple'"
+      (onClick)="logout()" />
   </div>
 </div>

@@ -1,0 +1,115 @@
+{
+  "root": true,
+  "plugins": ["@typescript-eslint", "unused-imports", "simple-import-sort"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+        "unused-imports/no-unused-imports": "error",
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": {
+              "memberTypes": [
+                // Index signature
+                "signature",
+
+                // Fields
+                "public-static-field",
+                "protected-static-field",
+                "private-static-field",
+
+                "public-decorated-field",
+                "protected-decorated-field",
+                "private-decorated-field",
+
+                "public-instance-field",
+                "protected-instance-field",
+                "private-instance-field",
+
+                "public-abstract-field",
+                "protected-abstract-field",
+
+                "public-field",
+                "protected-field",
+                "private-field",
+
+                "static-field",
+                "instance-field",
+                "abstract-field",
+
+                "decorated-field",
+
+                "field",
+
+                // Constructors
+                "public-constructor",
+                "protected-constructor",
+                "private-constructor",
+
+                "constructor",
+
+                // Methods
+                "public-static-method",
+                "protected-static-method",
+                "private-static-method",
+
+                "public-decorated-method",
+                "protected-decorated-method",
+                "private-decorated-method",
+
+                "public-instance-method",
+                "protected-instance-method",
+                "private-instance-method",
+
+                "public-abstract-method",
+                "protected-abstract-method",
+
+                "public-method",
+                "protected-method",
+                "private-method",
+
+                "static-method",
+                "instance-method",
+                "abstract-method",
+
+                "decorated-method",
+
+                "method"
+              ],
+              "order": "as-written"
+            }
+          }
+        ]
+      }
+    },
+    // NOTE: WE ARE NOT APPLYING PRETTIER IN THIS OVERRIDE, ONLY @ANGULAR-ESLINT/TEMPLATE
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    },
+    // NOTE: WE ARE NOT APPLYING @ANGULAR-ESLINT/TEMPLATE IN THIS OVERRIDE, ONLY PRETTIER
+    {
+      "files": ["*.html"],
+      "excludedFiles": ["*inline-template-*.component.html"],
+      "extends": ["plugin:prettier/recommended"],
+      "rules": {
+        // NOTE: WE ARE OVERRIDING THE DEFAULT CONFIG TO ALWAYS SET THE PARSER TO ANGULAR (SEE BELOW)
+        "prettier/prettier": ["error", { "parser": "angular" }]
+      }
+    }
+  ]
+}

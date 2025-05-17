@@ -21,28 +21,8 @@
     &__name {
       color: white;
       font-size: 16px;
-    }
-  }
-
-  &__logout__button {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    background: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 8px;
-    font-weight: bold;
-
-    &:hover {
-      opacity: 0.8;
-    }
-
-    &__icon {
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
+      font-weight: bold;
+      font-family: "Poppins Bold", sans-serif;
     }
   }
 }

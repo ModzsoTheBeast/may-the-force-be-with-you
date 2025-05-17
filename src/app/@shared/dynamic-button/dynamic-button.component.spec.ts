@@ -8,11 +8,11 @@ describe('DynamicButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicButtonComponent]
-    })
-    .compileComponents();
+      imports: [DynamicButtonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DynamicButtonComponent);
+    fixture.componentRef.setInput('text', '');
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

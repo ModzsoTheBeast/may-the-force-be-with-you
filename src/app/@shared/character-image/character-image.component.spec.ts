@@ -8,11 +8,11 @@ describe('CharacterImageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CharacterImageComponent]
-    })
-    .compileComponents();
+      imports: [CharacterImageComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CharacterImageComponent);
+    fixture.componentRef.setInput('characterId', '');
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

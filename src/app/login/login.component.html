@@ -1,57 +1,82 @@
 <div class="login">
   <section class="login__section">
-    <h2 class="login__subtitle">webstar</h2>
-    <h1 class="login__title">frontend</h1>
+    <h2 class="login__section__subtitle">webstar</h2>
+    <h1 class="login__section__title">frontend</h1>
     <form
-      class="login__form needs-validation"
+      class="login__section__form"
       [formGroup]="loginForm"
-      (ngSubmit)="login()"
-    >
-      @let usernameControl = loginForm.controls.username; @let passwordControl
-      =loginForm.controls.password;
-      <div class="input-group mb-3 has-validation">
-        <label class="login__label" for="username-input">Felhasználónév</label>
+      (ngSubmit)="login()">
+      @let usernameControl = loginForm.controls.username;
+      @let passwordControl = loginForm.controls.password;
+      <div class="login__section__form__input-group input-group">
+        <label
+          class="login__section__form__input-group__label form-label"
+          for="username-input"
+          >Felhasználónév</label
+        >
         <input
           id="username-input"
-          class="login__input login__input--username form-control"
+          class="login__section__form__input-group__input form-control"
           [formControl]="usernameControl"
           [class.is-invalid]="
             usernameControl.invalid && usernameControl.touched
           "
           type="text"
-          placeholder="mail@example.com"
-        />
+          placeholder="mail@example.com" />
         @if (usernameControl.hasError('required') && usernameControl.touched) {
-        <div class="invalid-feedback">Kötelező!</div>
-        } @if (usernameControl.hasError('email') && usernameControl.touched) {
-        <div class="invalid-feedback">Invalid email format!</div>
-        } @if (usernameControl.hasError('minlength') && usernameControl.touched)
-        {
-        <div class="invalid-feedback">Minimum 3 karakter!</div>
+          <div
+            class="login__section__form__input-group__error invalid-feedback">
+            Kötelező!
+          </div>
+        }
+        @if (usernameControl.hasError('email') && usernameControl.touched) {
+          <div
+            class="login__section__form__input-group__error invalid-feedback">
+            Invalid email format!
+          </div>
+        }
+        @if (usernameControl.hasError('minlength') && usernameControl.touched) {
+          <div
+            class="login__section__form__input-group__error invalid-feedback">
+            Minimum 3 karakter!
+          </div>
         }
       </div>
-      <div class="input-group mb-3">
-        <label class="login__label" for="password-input">Jelszó</label>
+      <div class="login__section__form__input-group input-group">
+        <label
+          class="login__section__form__input-group__label form-label"
+          for="password-input"
+          >Jelszó</label
+        >
         <input
           id="password-input"
-          class="login__input login__input--password form-control"
+          class="login__section__form__input-group__input form-control"
           [formControl]="passwordControl"
           [class.is-invalid]="
             passwordControl.invalid && passwordControl.touched
           "
           type="password"
-          placeholder="************"
-        />
+          placeholder="************" />
         @if (passwordControl.hasError('required') && passwordControl.touched) {
-        <div class="invalid-feedback">Kötelező!</div>
-        } @if (passwordControl.hasError('minlength') && passwordControl.touched)
-        {
-        <div class="invalid-feedback">Minimum 3 karakter!</div>
+          <div
+            class="login__section__form__input-group__error invalid-feedback">
+            Kötelező!
+          </div>
+        }
+        @if (passwordControl.hasError('minlength') && passwordControl.touched) {
+          <div
+            class="login__section__form__input-group__error invalid-feedback">
+            Minimum 3 karakter!
+          </div>
         }
       </div>
-      <button class="btn btn-warning login__button" type="submit">
-        Belépés
-      </button>
+      @let isMobile = (screenSizeObservable() | async) === ScreenSize.MOBILE;
+      <app-dynamic-button
+        [style.width]="isMobile ? '100%' : 'fit-content'"
+        [type]="'submit'"
+        [width]="isMobile ? '100%' : 'fit-content'"
+        [customStyle]="{ 'padding-inline': isMobile ? '0' : '90px' }"
+        [text]="'Belépés'" />
     </form>
   </section>
 </div>

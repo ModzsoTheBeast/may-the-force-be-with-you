@@ -1,17 +1,13 @@
 <app-page-shell>
   <div class="character-edit-content">
-    <div
-      class="d-flex align-items-center justify-content-between align-items-center mb-4"
-    >
+    <div class="character-edit-content__header">
       <button
-        class="character-edit__header__back-button btn d-flex align-items-center gap-2"
-        (click)="back()"
-      >
+        class="character-edit__header__back-button btn d-flex p-0 align-items-center gap-2"
+        (click)="back()">
         <img
           class="character-edit__header__back-button__icon"
           src="/assets/ui/chevron.png"
-          alt="back-button"
-        />
+          alt="back-button" />
         <span class="character-edit__header__back-button__text">
           Karakterek szerkesztése
         </span>
@@ -21,8 +17,7 @@
         [variant]="'outline'"
         data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasRight"
-        (onClick)="addCharacter()"
-      ></app-dynamic-button>
+        (onClick)="addCharacter()" />
     </div>
 
     <div class="table-responsive">
@@ -31,95 +26,97 @@
           <tr>
             <th
               scope="col"
+              style="width: 25%"
               (click)="sort('name')"
-              [attr.aria-sort]="getSortDirection('name')"
-            >
+              [attr.aria-sort]="getSortDirection('name')">
               <span class="th-cell">
                 <span> NÉV </span>
                 @if (isSortedColumn('name')) {
-                <span class="sort-indicator">
-                  {{ sortDirection() === "asc" ? "▲" : "▼" }}
-                </span>
+                  <span class="sort-indicator">
+                    {{ sortDirection() === 'asc' ? '▲' : '▼' }}
+                  </span>
                 }
               </span>
             </th>
             <th
               scope="col"
+              style="width: 12%"
               (click)="sort('side')"
-              [attr.aria-sort]="getSortDirection('side')"
-            >
+              [attr.aria-sort]="getSortDirection('side')">
               <span class="th-cell">
                 <span> OLDAL </span>
                 @if (isSortedColumn('side')) {
-                <span class="sort-indicator">
-                  {{ sortDirection() === "asc" ? "▲" : "▼" }}
-                </span>
+                  <span class="sort-indicator">
+                    {{ sortDirection() === 'asc' ? '▲' : '▼' }}
+                  </span>
                 }
               </span>
             </th>
             <th
               scope="col"
+              style="width: 20%"
               (click)="sort('power')"
-              [attr.aria-sort]="getSortDirection('power')"
-            >
+              [attr.aria-sort]="getSortDirection('power')">
               <span class="th-cell">
                 <span> KÜLÖNLEGES ERŐ </span>
                 @if (isSortedColumn('power')) {
-                <span class="sort-indicator" *ngIf="isSortedColumn('power')">
-                  {{ sortDirection() === "asc" ? "▲" : "▼" }}
-                </span>
+                  <span class="sort-indicator" *ngIf="isSortedColumn('power')">
+                    {{ sortDirection() === 'asc' ? '▲' : '▼' }}
+                  </span>
                 }
               </span>
             </th>
             <th
               scope="col"
+              style="width: 15%"
               (click)="sort('midichlorian')"
-              [attr.aria-sort]="getSortDirection('midichlorian')"
-            >
+              [attr.aria-sort]="getSortDirection('midichlorian')">
               <span class="th-cell">
                 <span> MIDIKLORIÁN </span>
                 @if (isSortedColumn('midichlorian')) {
-                <span class="sort-indicator">
-                  {{ sortDirection() === "asc" ? "▲" : "▼" }}
-                </span>
+                  <span class="sort-indicator">
+                    {{ sortDirection() === 'asc' ? '▲' : '▼' }}
+                  </span>
                 }
               </span>
             </th>
-            <th scope="col"></th>
+            <th scope="col" style="width: 33%"></th>
           </tr>
         </thead>
         <tbody>
           @for (character of characters(); track character.uuid) {
-          <tr>
-            <td>{{ character.name }}</td>
-            <td>{{ character.side === "DARK" ? "Sötét" : "Világos" }}</td>
-            <td>{{ character.abilities.power }}</td>
-            <td>{{ character.abilities.midichlorian }}</td>
-            <td class="actions">
-              <div class="button-wrapper">
-                <button
-                  class="btn button--copy"
-                  (click)="copyCharacter(character)"
-                >
-                  Másolás
-                </button>
-                <button
-                  class="btn button--edit"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasRight"
-                  (click)="editCharacter(character)"
-                >
-                  Módosítás
-                </button>
-                <button
-                  class="btn button--delete"
-                  (click)="deleteCharacter(character)"
-                >
-                  Törlés
-                </button>
-              </div>
-            </td>
-          </tr>
+            <tr>
+              <td>{{ character.name }}</td>
+              <td>{{ character.side === 'DARK' ? 'Sötét' : 'Világos' }}</td>
+              <td>{{ character.abilities.power }}</td>
+              <td>{{ character.abilities.midichlorian }}</td>
+              <td class="actions">
+                <div class="button-wrapper">
+                  <app-dynamic-button
+                    text="Másolás"
+                    variant="simple"
+                    (onClick)="copyCharacter(character)"
+                    textColor="white" />
+                  <!--                  <button-->
+                  <!--                    class="btn button&#45;&#45;copy"-->
+                  <!--                    (click)="copyCharacter(character)">-->
+                  <!--                    Másolás-->
+                  <!--                  </button>-->
+                  <button
+                    class="btn button--edit"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight"
+                    (click)="editCharacter(character)">
+                    Módosítás
+                  </button>
+                  <button
+                    class="btn button--delete"
+                    (click)="deleteCharacter(character)">
+                    Törlés
+                  </button>
+                </div>
+              </td>
+            </tr>
           }
         </tbody>
       </table>
@@ -130,10 +127,7 @@
     class="offcanvas offcanvas-end"
     tabindex="-1"
     id="offcanvasRight"
-    aria-labelledby="offcanvasRightLabel"
-  >
-    <app-character-sidebar
-      [character]="selectedCharacter()"
-    ></app-character-sidebar>
+    aria-labelledby="offcanvasRightLabel">
+    <app-character-sidebar [character]="selectedCharacter()" />
   </div>
 </app-page-shell>

@@ -6,7 +6,7 @@
   flex-direction: row;
   width: fit-content;
 
-  .star-icon-container{
+  .star-icon-container {
     background: orange;
     width: 60px;
     height: 60px;
@@ -29,23 +29,19 @@
 
     .side-icon-container--dark {
       position: absolute;
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       background: black;
-      top: 5px;
-      left: 5px;
+      top: 10px;
+      left: 10px;
     }
   }
-
 }
-
-
 
 .icon-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
   width: 60px;
   height: 60px;
   background: white;
@@ -64,14 +60,16 @@
 }
 
 .label {
-  font-size: 12px;
+  font-size: 1rem;
+  font-family: 'Poppins Bold', sans-serif;
   font-weight: bold;
   color: #ffc107;
   text-transform: uppercase;
 }
 
 .value {
-  font-size: 16px;
+  font-size: 20px;
+  font-family: 'Poppins Black', sans-serif;
   color: white;
   font-weight: 500;
 }

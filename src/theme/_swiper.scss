@@ -1,9 +1,8 @@
-@use "swiper/css";
-@use "swiper/css/navigation";
-@use "swiper/css/pagination";
+@use 'swiper/css';
+@use 'swiper/css/navigation';
+@use 'swiper/css/pagination';
 
 .swiper {
-
   --swiper-theme-color: white;
 
   .swiper-button-next,
@@ -27,6 +26,4 @@
     width: 12px;
     height: 12px;
   }
-
 }
-

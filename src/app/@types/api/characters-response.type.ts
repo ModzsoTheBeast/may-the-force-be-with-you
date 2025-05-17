@@ -1,5 +1,5 @@
-import {Character} from '@app/@types';
+import { Character } from '@app/@types';
 
 export type CharactersResponse = {
-  characters: Character[]
-}
+  characters: Character[];
+};

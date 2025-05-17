@@ -1,17 +1,17 @@
+import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   Signal,
-  ChangeDetectionStrategy,
-  computed,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { ExtendedCharacter } from '@app/@types';
+import { CharacterDetailsComponent } from '@app/character-select/character-details/character-details.component';
+import { CharacterSwiperComponent } from '@app/character-select/character-swiper/character-swiper.component';
 import { PageShellComponent } from '@shared/page-shell/page-shell.component';
 import { CharacterService } from '@shared/services/character.service';
-import { Character, ExtendedCharacter } from '@app/@types';
-import { CharacterSwiperComponent } from '@app/character-select/character-swiper/character-swiper.component';
-import { CharacterDetailsComponent } from '@app/character-select/character-details/character-details.component';
 
 @Component({
   selector: 'app-character-select',
@@ -28,13 +28,17 @@ import { CharacterDetailsComponent } from '@app/character-select/character-detai
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterSelectComponent {
-  private characterService: CharacterService = inject(CharacterService);
-  readonly characters: Signal<ExtendedCharacter[] | undefined> =
-    this.characterService.loadCharacters();
-
+  characters: Signal<ExtendedCharacter[] | undefined>;
   visibleCharacter = computed(() => {
-    return this.characters()?.find((char) => char.visible) as ExtendedCharacter;
+    return this.characters()?.find(char => char.visible) as ExtendedCharacter;
   });
+
+  private characterService: CharacterService;
+
+  constructor() {
+    this.characterService = inject(CharacterService);
+    this.characters = this.characterService.loadCharacters();
+  }
 
   onSwipe(event: number) {
     const chars = this.characters();

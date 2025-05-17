@@ -1,15 +1,30 @@
 .page-shell {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
   width: 100%;
   overflow: hidden;
   background-size: cover;
   background-position: center;
+
+  app-page-header {
+    max-width: 1160px;
+    width: 100%;
+  }
 }
 
 .page-content {
   flex: 1;
-  padding: 4rem;
+  width: 100%;
+  max-width: 1160px;
   height: calc(100vh - 65px); //TODO: add  to var
+  padding: 1rem;
+}
+
+@media (max-width: 600px) {
+  .page-shell {
+    overflow-y: auto;
+  }
 }

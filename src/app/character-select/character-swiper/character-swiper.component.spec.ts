@@ -1,3 +1,4 @@
+import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CharacterSwiperComponent } from './character-swiper.component';
@@ -8,11 +9,12 @@ describe('CharacterSwiperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CharacterSwiperComponent]
-    })
-    .compileComponents();
+      imports: [CharacterSwiperComponent],
+      providers: [provideHttpClient()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CharacterSwiperComponent);
+    fixture.componentRef.setInput('characters', []);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

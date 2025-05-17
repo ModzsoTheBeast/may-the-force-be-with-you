@@ -1,25 +1,25 @@
-import { Injectable, inject, Signal, signal, computed } from '@angular/core';
-import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
-import { CharactersResponse, ExtendedCharacter } from '@app/@types';
-import { map } from 'rxjs';
-import { CHARACTERS_RESPONSE_MOCK$ } from './mocks/characters.mock';
-import { MockDataService } from './mock-data.service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { mapCharacters } from '@app/@shared';
+import { CharactersResponse, ExtendedCharacter } from '@app/@types';
+import { environment } from '@env/environment';
+import { map } from 'rxjs';
+
+import { MockDataService } from './mock-data.service';
+import { CHARACTERS_RESPONSE_MOCK$ } from './mocks/characters.mock';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CharacterService {
+  selectedCharacters = computed(() => {
+    return this.charactersSignal()?.filter(character => character.selected);
+  });
+
   private readonly API_URL: string = `${environment.apiUrl}characters/`;
   private readonly mockDataService: MockDataService = inject(MockDataService);
   private readonly http: HttpClient = inject(HttpClient);
   private charactersSignal = signal<ExtendedCharacter[] | undefined>(undefined);
-
-  selectedCharacters = computed(()=> {
-    return this.charactersSignal()?.filter(character => character.selected)
-  })
 
   loadCharacters(): Signal<ExtendedCharacter[] | undefined> {
     if (this.mockDataService.useMockData) {
@@ -27,7 +27,7 @@ export class CharacterService {
         map((response: CharactersResponse): ExtendedCharacter[] =>
           mapCharacters(response.characters)
         )
-      ).subscribe((characters) => {
+      ).subscribe(characters => {
         this.charactersSignal.set(characters);
       });
 
@@ -40,7 +40,7 @@ export class CharacterService {
             mapCharacters(response.characters)
           )
         )
-        .subscribe((characters) => {
+        .subscribe(characters => {
           this.charactersSignal.set(characters);
         });
 
@@ -53,6 +53,6 @@ export class CharacterService {
   }
 
   get characters() {
-    return this.charactersSignal()
+    return this.charactersSignal();
   }
 }

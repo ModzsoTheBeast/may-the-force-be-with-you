@@ -1,10 +1,10 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  signal, output,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+} from '@angular/core';
 import { Direction, Side } from '@app/@types';
 
 @Component({
@@ -20,13 +20,15 @@ export class CharacterImageComponent {
   backgroundColor = input<string>('yellow');
   hasBackground = input<boolean>(true);
   selectable = input<boolean>(false);
-  customImageStyle = input<{ [klass: string]: any; }|null|undefined>(null);
+  customImageStyle = input<Record<string, string | number> | null | undefined>(
+    null
+  );
   onClickEvent = output<void>();
 
   protected readonly Direction = Direction;
   protected readonly Side = Side;
 
   onClick() {
-    this.onClickEvent.emit()
+    this.onClickEvent.emit();
   }
 }

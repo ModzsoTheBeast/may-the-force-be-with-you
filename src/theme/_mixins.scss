@@ -1,20 +1,25 @@
-@use "sass:color";
-@use "../theme/theme" as theme;
+@use 'sass:color';
+@use '../theme/theme' as theme;
 
-@mixin darken-background-color($base-color) {
-  background-color: color.adjust(
-    $base-color,
-    $lightness: -1 * theme.$darken-percet
-  );
+@mixin darken-background-color(
+  $base-color,
+  $darken-amount: theme.$darken-percet
+) {
+  background-color: color.adjust($base-color, $lightness: -1 * $darken-amount);
 }
 
-@mixin darken-outline-button($bg-color, $text-color) {
-  border-color: color.adjust(
-    $bg-color,
-    $lightness: -1 * theme.$darken-percet
-  );
-  color: color.adjust(
-    $text-color,
-    $lightness: -1 * theme.$darken-percet
-  );
+@mixin darken-outline-button(
+  $bg-color,
+  $text-color,
+  $darken-amount: theme.$darken-percet
+) {
+  border-color: color.adjust($bg-color, $lightness: -1 * $darken-amount);
+  color: color.adjust($text-color, $lightness: -1 * $darken-amount);
+}
+
+@mixin darken-simple-button(
+  $text-color,
+  $darken-amount: theme.$darken-percet
+) {
+  color: color.adjust($text-color, $lightness: -1 * $darken-amount);
 }

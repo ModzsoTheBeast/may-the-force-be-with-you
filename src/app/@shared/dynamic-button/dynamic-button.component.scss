@@ -1,25 +1,90 @@
-@use "../../../theme/_colors" as col;
-@use "../../../theme/_mixins" as mx;
+@use '../../../theme/_colors' as col;
+@use '../../../theme/_mixins' as mx;
 
 .dynamic-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
   font-weight: bold;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  font-family: 'Poppins Bold', sans-serif;
+  font-size: 1rem;
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    transition: all 0.2s ease-in-out;
+
+    &--prefix {
+      margin-right: 4px;
+    }
+
+    &--postfix {
+      margin-left: 4px;
+    }
+  }
+
+  &--fit-content {
+    width: max-content;
+  }
+
+  &--full-width {
+    width: 100%;
+  }
 
   &--flat {
-    background: col.$yellow;
+    background-color: col.$yellow;
     color: col.$black;
 
-    &:hover {
-      @include mx.darken-background-color(col.$yellow)
+    &:hover:not(:disabled) {
+      @include mx.darken-background-color(col.$yellow);
+    }
+
+    &:active:not(:disabled) {
+      @include mx.darken-background-color(col.$yellow, 6%);
     }
   }
 
   &--outline {
-    background: transparent;
+    background-color: transparent;
     border: 2px solid col.$yellow;
     color: col.$white;
 
-    &:hover {
-      @include mx.darken-outline-button(col.$yellow, col.$white)
+    &:hover:not(:disabled) {
+      @include mx.darken-outline-button(col.$yellow, col.$white);
+    }
+
+    &:active:not(:disabled) {
+      @include mx.darken-outline-button(col.$yellow, col.$white, 6%);
+    }
+  }
+
+  &--simple {
+    background-color: transparent;
+    border: none;
+    color: col.$white;
+    padding: 8px;
+
+    &:hover:not(:disabled) {
+      @include mx.darken-simple-button(col.$white, 10%);
+    }
+
+    &:active:not(:disabled) {
+      @include mx.darken-simple-button(col.$white, 20%);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    .dynamic-button__icon {
+      opacity: 0.5;
     }
   }
 }

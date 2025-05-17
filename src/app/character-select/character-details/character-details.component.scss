@@ -1,13 +1,14 @@
 .character-details {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
   align-items: start;
+  overflow-y: auto;
 
   &__specials {
     display: flex;
     gap: 2rem;
+    margin-bottom: 2rem
   }
 
   &__name {
@@ -18,16 +19,40 @@
     &--first,
     &--last {
       font-size: 90px;
+      line-height: 90px;
       font-family: 'Star Jedi', monospace;
     }
   }
 
   &__description {
     font-size: 16px;
-    font-family: Poppins, regular, sans-serif;
+    margin-top: 1rem;
+    opacity: 0.8;
+    font-family: 'Poppins Regular', sans-serif;
   }
 
   &__modules {
     width: 100%;
+
+    h2 {
+      font-size: 24px;
+      font-family: 'Poppins Black', sans-serif;
+      font-weight: bold;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .character-details__specials {
+    flex-direction: column;
+  }
+
+  .character-details__name {
+    padding: 0;
+  }
+
+  .character-details__name--first,
+  .character-details__name--last {
+    font-size: 10vw;
   }
 }

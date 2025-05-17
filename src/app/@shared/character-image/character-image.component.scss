@@ -45,6 +45,10 @@
       left: 0.5rem;
     }
 
+    &--center {
+      left: unset;
+    }
+
     &--dark {
       background: linear-gradient(0deg, grey, darkgrey);
     }
@@ -59,5 +63,6 @@
     height: 100%;
     width: 100%;
     padding: 1rem;
+    object-fit: contain;
   }
 }

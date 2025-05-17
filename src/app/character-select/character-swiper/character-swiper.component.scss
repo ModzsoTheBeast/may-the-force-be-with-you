@@ -1,7 +1,62 @@
+@use 'swiper/css';
+@use 'swiper/css/navigation';
+@use 'swiper/css/pagination';
+
+.swiper {
+  --swiper-theme-color: white;
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    color: #ffc107;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    &:after {
+      font-size: 20px;
+    }
+  }
+
+  .swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.swiper-nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  button {
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffc107;
+    border: 2px solid #ffc107;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #ffc107;
+      color: black;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
 swiper-container {
   width: 100%;
   height: 100%;
-  //height: 80vh;
   --swiper-navigation-color: #ffc107;
   --swiper-pagination-color: #ffc107;
   --swiper-pagination-bullet-inactive-color: #ffffff;
@@ -24,15 +79,7 @@ swiper-slide {
 .character-card {
   width: 100%;
   height: 100%;
-  //background: rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
   padding: 15px;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  //border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  transform: perspective(1000px) rotateY(0deg);
   transition: transform 0.5s;
 
   app-character-image {

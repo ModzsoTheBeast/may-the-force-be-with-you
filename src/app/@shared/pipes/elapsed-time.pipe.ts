@@ -7,7 +7,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ElapsedTimePipe implements PipeTransform {
   transform(seconds: number): string {
-    console.log(seconds);
     if (!seconds || seconds <= 0) return '';
 
     const timeUnits: { value: number; text: string }[] = [

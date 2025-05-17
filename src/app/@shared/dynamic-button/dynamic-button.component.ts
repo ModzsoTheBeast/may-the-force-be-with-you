@@ -1,19 +1,16 @@
+import { NgClass, NgStyle } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   input,
   InputSignal,
   output,
   OutputEmitterRef,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import {NgClass, NgStyle} from '@angular/common';
 
 @Component({
   selector: 'app-dynamic-button',
-  imports: [
-    NgClass,
-    NgStyle
-  ],
+  imports: [NgClass, NgStyle],
   templateUrl: './dynamic-button.component.html',
   styleUrl: './dynamic-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,8 +18,18 @@ import {NgClass, NgStyle} from '@angular/common';
 export class DynamicButtonComponent {
   text: InputSignal<string> = input.required<string>();
   type: InputSignal<string> = input<string>('button');
-  customStyle: InputSignal<{ [p: string]: any } | null | undefined> = input<{ [p: string]: any } | null | undefined>(null);
+  customStyle: InputSignal<Record<string, string | number> | null | undefined> =
+    input<Record<string, string | number> | null | undefined>(null);
   disabled: InputSignal<boolean> = input<boolean>(false);
-  variant: InputSignal<'flat' | 'outline'> = input<'flat' | 'outline'>('flat');
+  variant: InputSignal<'flat' | 'outline' | 'simple'> = input<
+    'flat' | 'outline' | 'simple'
+  >('flat');
+  iconPrefix: InputSignal<string | null> = input<string | null>(null);
+  iconPostfix: InputSignal<string | null> = input<string | null>(null);
+  textColor: InputSignal<string | null> = input<string | null>(null);
+  backgroundColor: InputSignal<string | null> = input<string | null>(null);
+  width: InputSignal<'fit-content' | '100%'> = input<'fit-content' | '100%'>(
+    'fit-content'
+  );
   onClick: OutputEmitterRef<void> = output<void>();
 }

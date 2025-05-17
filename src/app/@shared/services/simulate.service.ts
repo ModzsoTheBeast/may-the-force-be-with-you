@@ -1,12 +1,11 @@
-import { Injectable, inject } from '@angular/core';
-import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import {
-  SIMULATION_RESULT_MOCK,
-} from './mocks/simulate.mock';
+import { inject, Injectable } from '@angular/core';
 import { SimulateRequest, SimulateResponse } from '@app/@types';
+import { environment } from '@env/environment';
+import { Observable } from 'rxjs';
+
 import { MockDataService } from './mock-data.service';
+import { SIMULATION_RESULT_MOCK } from './mocks/simulate.mock';
 
 @Injectable({
   providedIn: 'root',

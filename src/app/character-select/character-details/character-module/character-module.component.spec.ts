@@ -12,6 +12,8 @@ describe('CharacterModuleComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(CharacterModuleComponent);
+    fixture.componentRef.setInput('title', '');
+    fixture.componentRef.setInput('subtitle', '');
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

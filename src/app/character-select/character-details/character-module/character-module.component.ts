@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, input} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-character-module',
@@ -8,6 +8,6 @@ import {Component, ChangeDetectionStrategy, Input, input} from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterModuleComponent {
-  title = input.required<string>()
-  subtitle = input.required<string>()
+  title = input.required<string>();
+  subtitle = input.required<string>();
 }

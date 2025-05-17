@@ -8,7 +8,7 @@ export function mapCharacters(character: Character[]): ExtendedCharacter[] {
       selected: false,
       visible: index === 0,
       health: 100,
-      uuid: uuidv4()
+      uuid: uuidv4(),
     };
   });
 }

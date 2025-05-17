@@ -1,39 +1,37 @@
 <div class="offcanvas-header">
-  <h5 id="offcanvasRightLabel">
-    Karakter {{ character() ? "hozzáadása" : "szerkesztése" }}
+  <h5 class="offcanvas-header__title">
+    Karakter {{ character() ? 'hozzáadása' : 'szerkesztése' }}
   </h5>
   <button
     type="button"
     class="btn-close text-reset"
     data-bs-dismiss="offcanvas"
-    aria-label="Close"
-  ></button>
+    aria-label="Close"></button>
 </div>
 <div class="offcanvas-body">
   <form (ngSubmit)="submit()">
     <div class="input-group mb-3">
-      <label>Avatár kiválasztása</label>
+      <label class="form-label">Avatár kiválasztása</label>
       <div class="d-flex flex-row g-1 overflow-x-auto">
-          @for (character of characters; track character.uuid) {
-          @let selectedCharPicture = characterForm.controls.avatar.value ===
-          character.id;
-              <app-character-image
+        @for (character of characters; track character.uuid) {
+          @let selectedCharPicture =
+            characterForm.controls.avatar.value === character.id;
+          <app-character-image
             [characterId]="character.id"
             [hasBackground]="selectedCharPicture"
             [selectable]="true"
-            [customImageStyle]="{padding: 0, width: '150px'}"
+            [customImageStyle]="{ padding: 0, width: '100px' }"
             (onClickEvent)="
               this.characterForm.controls.avatar.setValue(character.id)
-            "
-          />
-          }
+            " />
+        }
       </div>
     </div>
     <div class="input-grid">
-      @let nameControl = characterForm.controls.name; @let sideControl =
-      characterForm.controls.side; @let powerControl =
-      characterForm.controls.power; @let midiclorianControl =
-      characterForm.controls.midiclorian;
+      @let nameControl = characterForm.controls.name;
+      @let sideControl = characterForm.controls.side;
+      @let powerControl = characterForm.controls.power;
+      @let midiclorianControl = characterForm.controls.midiclorian;
       <div class="mb-3">
         <label class="form-label" for="name-input">Név</label>
         <input
@@ -41,10 +39,9 @@
           class="form-control"
           [formControl]="nameControl"
           [class.is-invalid]="nameControl.invalid && !nameControl.untouched"
-          type="text"
-        />
+          type="text" />
         @if (nameControl.hasError('required') && !nameControl.untouched) {
-        <div class="invalid-feedback">Kötelező!</div>
+          <div class="invalid-feedback">Kötelező!</div>
         }
       </div>
 
@@ -53,11 +50,10 @@
         <select
           class="form-select"
           id="side-select"
-          [formControl]="sideControl"
-        >
+          [formControl]="sideControl">
           <option [value]="Side.DARK">Sötét</option>
-          <option [value]="Side.LIGHT">Világos</option></select
-        >
+          <option [value]="Side.LIGHT">Világos</option>
+        </select>
       </div>
 
       <div class="mb-3">
@@ -65,8 +61,7 @@
         <select
           class="form-select"
           id="power-select"
-          [formControl]="powerControl"
-        >
+          [formControl]="powerControl">
           <option [value]="'Erő használata'">Erő használata</option>
           <option [value]="'Kibernetikus test'">Kibernetikus test</option>
           <option [value]="'Harcászati tapasztalat'">
@@ -74,8 +69,8 @@
           </option>
           <option [value]="'Űrcsempész'">Űrcsempész</option>
           <option [value]="'Péncélzat'">Péncélzat</option>
-          <option [value]="'Fehér páncélzat'">Fehér páncélzat</option></select
-        >
+          <option [value]="'Fehér páncélzat'">Fehér páncélzat</option>
+        </select>
       </div>
 
       <div class="mb-3">
@@ -87,25 +82,31 @@
           [class.is-invalid]="
             midiclorianControl.invalid && !midiclorianControl.untouched
           "
-          type="text"
-        />
-        @if (midiclorianControl.hasError('required') &&
-        !midiclorianControl.untouched) {
-        <div class="invalid-feedback">Kötelező!</div>
+          type="text" />
+        @if (
+          midiclorianControl.hasError('required') &&
+          !midiclorianControl.untouched
+        ) {
+          <div class="invalid-feedback">Kötelező!</div>
         }
       </div>
     </div>
 
     <div class="mb-3">
       <label for="description-label" class="form-label">Description</label>
-      <textarea class="form-control" id="description-label" rows="3" [formControl]="characterForm.controls.description"></textarea>
+      <textarea
+        class="form-control"
+        id="description-label"
+        rows="3"
+        [formControl]="characterForm.controls.description"></textarea>
     </div>
 
-    @let char = character(); @if (char) {
-    <div class="time-info form-label">
-      <label for="counter">Karakter létrehozás óta eltelt idő:</label>
-      <p id="counter">{{ (elapsedSeconds$ | async) ?? 0 | elapsedTime }}</p>
-    </div>
+    @let char = character();
+    @if (char) {
+      <div class="time-info form-label">
+        <label for="counter">Karakter létrehozás óta eltelt idő:</label>
+        <p id="counter">{{ (elapsedSeconds$ | async) ?? 0 | elapsedTime }}</p>
+      </div>
     }
     <div class="actions-wrapper">
       <app-dynamic-button
@@ -113,14 +114,12 @@
         [text]="'Mégsem'"
         [customStyle]="{ width: '100%', color: 'black' }"
         [variant]="'outline'"
-        (onClick)="cancel()"
-      />
+        (onClick)="cancel()" />
       <app-dynamic-button
         class="w-100"
         [text]="'Mentés'"
         [type]="'submit'"
-        [customStyle]="{ width: '100%' }"
-      />
+        [customStyle]="{ width: '100%' }" />
     </div>
   </form>
 </div>

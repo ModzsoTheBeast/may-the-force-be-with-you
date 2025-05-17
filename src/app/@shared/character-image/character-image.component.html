@@ -1,8 +1,7 @@
 <div
   class="character-image-container"
   [ngClass]="{ selectable: selectable() }"
-  (click)="onClick()"
->
+  (click)="onClick()">
   <div
     [ngClass]="{
       'character-image-container__background': true,
@@ -10,17 +9,18 @@
         lookDirection() === Direction.LEFT,
       'character-image-container__background--right':
         lookDirection() === Direction.RIGHT,
+      'character-image-container__background--center':
+        lookDirection() === Direction.CENTER,
       'character-image-container__background--dark':
         backgroundColor() === 'grey',
       'character-image-container__background--light':
         backgroundColor() === 'white',
-      'character-image-container__background--visible': hasBackground() || !selectable(),
-    }"
-  ></div>
+      'character-image-container__background--visible':
+        hasBackground() || !selectable(),
+    }"></div>
   <img
     [src]="'/assets/characters/' + characterId() + '.png'"
     [alt]="characterId()"
     [ngStyle]="customImageStyle()"
-    class="character-image-container__image"
-  />
+    class="character-image-container__image" />
 </div>

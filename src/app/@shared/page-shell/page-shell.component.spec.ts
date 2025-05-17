@@ -1,3 +1,4 @@
+import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PageShellComponent } from './page-shell.component';
@@ -8,9 +9,9 @@ describe('PageShellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PageShellComponent]
-    })
-    .compileComponents();
+      imports: [PageShellComponent],
+      providers: [provideHttpClient()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PageShellComponent);
     component = fixture.componentInstance;

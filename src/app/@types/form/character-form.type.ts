@@ -1,4 +1,5 @@
-import {FormControl} from '@angular/forms';
+import { FormControl } from '@angular/forms';
+
 import { Side } from '../enums';
 
 export type CharacterForm = {
@@ -8,4 +9,4 @@ export type CharacterForm = {
   power: FormControl<string>;
   midiclorian: FormControl<number>;
   description: FormControl<string>;
-}
+};

@@ -1,3 +1,4 @@
+import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CharacterEditComponent } from './character-edit.component';
@@ -8,9 +9,9 @@ describe('CharacterEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CharacterEditComponent]
-    })
-    .compileComponents();
+      imports: [CharacterEditComponent],
+      providers: [provideHttpClient()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CharacterEditComponent);
     component = fixture.componentInstance;
