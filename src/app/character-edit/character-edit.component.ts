@@ -4,21 +4,25 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   ElementRef,
   inject,
-  OnDestroy,
   OnInit,
   Renderer2,
   Signal,
   signal,
+  viewChild,
   WritableSignal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { CharacterSidebarComponent } from '@app/@shared/character-sidebar/character-sidebar.component';
 import { CharacterService } from '@app/@shared/services/character.service';
 import { ExtendedCharacter, Side } from '@app/@types';
 import { DynamicButtonComponent } from '@shared/dynamic-button/dynamic-button.component';
 import { PageShellComponent } from '@shared/page-shell/page-shell.component';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 
 type SortableValue = string | number;
@@ -36,9 +40,12 @@ type SortableValue = string | number;
   styleUrl: './character-edit.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterEditComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export class CharacterEditComponent implements OnInit, AfterViewInit {
+  tableContainer: Signal<ElementRef | undefined> =
+    viewChild<ElementRef>('tableContainer');
+  tableHeader: Signal<ElementRef | undefined> =
+    viewChild<ElementRef>('tableHeader');
+
   selectedCharacter: WritableSignal<ExtendedCharacter | null> =
     signal<ExtendedCharacter | null>(null);
   sortColumn: WritableSignal<string> = signal<string>('name');
@@ -83,9 +90,9 @@ export class CharacterEditComponent
   protected readonly Side: typeof Side = Side;
   private characterService: CharacterService = inject(CharacterService);
   private router: Router = inject(Router);
+  private destroyRef: DestroyRef = inject(DestroyRef);
   private elementRef: ElementRef = inject(ElementRef);
   private renderer: Renderer2 = inject(Renderer2);
-  private scrollListener: (() => void) | null = null;
 
   ngOnInit(): void {
     this.characterService.loadCharacters();
@@ -93,12 +100,6 @@ export class CharacterEditComponent
 
   ngAfterViewInit(): void {
     this.setupStickyHeaderDetection();
-  }
-
-  ngOnDestroy(): void {
-    if (this.scrollListener) {
-      this.scrollListener();
-    }
   }
 
   deleteCharacter(character: ExtendedCharacter): void {
@@ -153,33 +154,20 @@ export class CharacterEditComponent
     }
   }
 
-  getSortDirection(column: string): string {
-    if (this.sortColumn() !== column) return '';
-    return this.sortDirection() === 'asc' ? 'ascending' : 'descending';
-  }
-
-  isSortedColumn(column: string): boolean {
-    return this.sortColumn() === column;
-  }
-
   private setupStickyHeaderDetection(): void {
-    const tableContainer =
-      this.elementRef.nativeElement.querySelector('.table-responsive');
-    const tableHeader = this.elementRef.nativeElement.querySelector('thead');
-
+    const tableContainer: ElementRef | undefined = this.tableContainer();
+    const tableHeader: ElementRef | undefined = this.tableHeader();
     if (!tableContainer || !tableHeader) return;
 
-    this.scrollListener = this.renderer.listen(
-      tableContainer,
-      'scroll',
-      (): void => {
-        const scrollTop: number = tableContainer.scrollTop;
+    fromEvent(tableContainer.nativeElement, 'scroll')
+      .pipe(debounceTime(10), takeUntilDestroyed(this.destroyRef))
+      .subscribe((): void => {
+        const scrollTop: number = tableContainer.nativeElement.scrollTop;
         if (scrollTop > 0) {
-          this.renderer.addClass(tableHeader, 'sticky');
+          this.renderer.addClass(tableHeader.nativeElement, 'sticky');
         } else {
-          this.renderer.removeClass(tableHeader, 'sticky');
+          this.renderer.removeClass(tableHeader.nativeElement, 'sticky');
         }
-      }
-    );
+      });
   }
 }

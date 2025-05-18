@@ -2,7 +2,7 @@
   <div class="character-edit-content">
     <div class="character-edit-content__header">
       <button
-        class="character-edit__header__back-button btn d-flex p-0 align-items-center gap-2"
+        class="character-edit__header__back-button btn"
         (click)="back()"
         aria-label="Back to character editing">
         <img
@@ -22,23 +22,23 @@
         (onClick)="addCharacter()" />
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive" #tableContainer>
       <table
         class="table table-sm table-dark table-hover"
         aria-label="Character list">
-        <thead>
+        <thead #tableHeader>
           <tr>
             <th
               scope="col"
               style="width: 25%"
               (click)="sort('name')"
-              [attr.aria-sort]="getSortDirection('name')"
+              [attr.aria-sort]="sortColumn() === 'name' ? sortDirection() : ''"
               tabindex="0"
               role="button"
               aria-label="Sort by name">
               <span class="th-cell">
                 <span> NÉV </span>
-                @if (isSortedColumn('name')) {
+                @if (sortColumn() === 'name') {
                   <span class="sort-indicator">
                     {{ sortDirection() === 'asc' ? '▲' : '▼' }}
                   </span>
@@ -49,13 +49,13 @@
               scope="col"
               style="width: 12%"
               (click)="sort('side')"
-              [attr.aria-sort]="getSortDirection('side')"
+              [attr.aria-sort]="sortColumn() === 'side' ? sortDirection() : ''"
               tabindex="0"
               role="button"
               aria-label="Sort by side">
               <span class="th-cell">
                 <span> OLDAL </span>
-                @if (isSortedColumn('side')) {
+                @if (sortColumn() === 'side') {
                   <span class="sort-indicator">
                     {{ sortDirection() === 'asc' ? '▲' : '▼' }}
                   </span>
@@ -66,14 +66,14 @@
               scope="col"
               style="width: 20%"
               (click)="sort('power')"
-              [attr.aria-sort]="getSortDirection('power')"
+              [attr.aria-sort]="sortColumn() === 'power' ? sortDirection() : ''"
               tabindex="0"
               role="button"
               aria-label="Sort by power">
               <span class="th-cell">
                 <span> KÜLÖNLEGES ERŐ </span>
-                @if (isSortedColumn('power')) {
-                  <span class="sort-indicator" *ngIf="isSortedColumn('power')">
+                @if (sortColumn() === 'power') {
+                  <span class="sort-indicator">
                     {{ sortDirection() === 'asc' ? '▲' : '▼' }}
                   </span>
                 }
@@ -83,13 +83,15 @@
               scope="col"
               style="width: 15%"
               (click)="sort('midichlorian')"
-              [attr.aria-sort]="getSortDirection('midichlorian')"
+              [attr.aria-sort]="
+                sortColumn() === 'midichlorian' ? sortDirection() : ''
+              "
               tabindex="0"
               role="button"
               aria-label="Sort by midichlorian">
               <span class="th-cell">
                 <span> MIDIKLORIÁN </span>
-                @if (isSortedColumn('midichlorian')) {
+                @if (sortColumn() === 'midichlorian') {
                   <span class="sort-indicator">
                     {{ sortDirection() === 'asc' ? '▲' : '▼' }}
                   </span>

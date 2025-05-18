@@ -4,10 +4,13 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   effect,
+  ElementRef,
   inject,
   input,
   InputSignal,
   OnDestroy,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -41,10 +44,12 @@ import { TimeService } from '../services/time.service';
   styleUrl: './character-sidebar.component.scss',
 })
 export class CharacterSidebarComponent implements OnDestroy, AfterViewInit {
+  closeBtn: Signal<ElementRef | undefined> = viewChild<ElementRef>('closeBtn');
   character: InputSignal<ExtendedCharacter | null> =
     input<ExtendedCharacter | null>(null);
   characterService: CharacterService = inject(CharacterService);
   timeService: TimeService = inject(TimeService);
+  elementRef: ElementRef = inject(ElementRef);
   characters: ExtendedCharacter[] | undefined =
     this.characterService.characters;
   elapsedSeconds$: Observable<number> | null = null;
@@ -98,8 +103,7 @@ export class CharacterSidebarComponent implements OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.sidebarElement = document.querySelector('.offcanvas') as HTMLElement;
-
+    this.sidebarElement = this.elementRef.nativeElement.closest('.offcanvas');
     if (this.sidebarElement && this.hideEventHandler) {
       this.sidebarElement.addEventListener(
         'hide.bs.offcanvas',
@@ -186,11 +190,9 @@ export class CharacterSidebarComponent implements OnDestroy, AfterViewInit {
   }
 
   cancel(): void {
-    const closeButton = document.querySelector(
-      '[data-bs-dismiss="offcanvas"]'
-    ) as HTMLElement;
-    if (closeButton) {
-      closeButton.click();
+    const closeBtn: ElementRef | undefined = this.closeBtn();
+    if (closeBtn) {
+      closeBtn.nativeElement.click();
     }
   }
 

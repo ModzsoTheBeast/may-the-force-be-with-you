@@ -20,12 +20,10 @@
         <app-fighter
           [character]="dChar"
           [isAttacking]="attacker()?.id === dChar.id"
-          [isWinner]="!!winner()"
-          [showSideName]="!winner()"
-          [lookDirection]="winner() ? Direction.CENTER : Direction.RIGHT"
+          [winner]="winner()"
+          [defaultLookDirection]="Direction.RIGHT"
           [imageWidth]="imageWidth"
           [backgroundColor]="'grey'"
-          [showBackButton]="!!winner()"
           (onBack)="back()" />
       }
       @if (!winner() && !isMobile) {
@@ -38,12 +36,10 @@
         <app-fighter
           [character]="lChar"
           [isAttacking]="attacker()?.id === lChar.id"
-          [isWinner]="!!winner()"
-          [showSideName]="!winner()"
-          [lookDirection]="winner() ? Direction.CENTER : Direction.LEFT"
+          [winner]="winner()"
+          [defaultLookDirection]="Direction.LEFT"
           [imageWidth]="imageWidth"
           [backgroundColor]="'white'"
-          [showBackButton]="!!winner()"
           (onBack)="back()" />
       }
     </div>

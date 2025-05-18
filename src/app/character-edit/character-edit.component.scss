@@ -17,7 +17,11 @@
     .character-edit__header__back-button {
       color: white;
       font-size: 24px;
-      font-family: "Poppins Black", sans-serif;
+      font-family: 'Poppins Black', sans-serif;
+      display: flex;
+      padding: 0;
+      align-items: center;
+      gap: 1rem;
 
       &:hover {
         opacity: 0.8;
@@ -47,7 +51,6 @@
     padding: 1rem;
   }
 }
-
 
 .table-responsive {
   flex-grow: 1;
@@ -120,13 +123,13 @@ tbody {
 th {
   padding: 0;
   .th-cell {
-    padding: .25rem 20px;
-  height: 46px;
+    padding: 0.25rem 20px;
+    height: 46px;
   }
 }
 
 td {
-  padding: .25rem 20px;
+  padding: 0.25rem 20px;
 }
 
 .actions {
