@@ -1,0 +1,42 @@
+<div class="char" [class.attacking]="isAttacking()">
+  @if (showSideName()) {
+    <div class="side">
+      {{ character().side === Side.DARK ? 'Sötét oldal' : 'Világos oldal' }}
+    </div>
+  }
+  <app-character-image
+    [characterId]="character().id"
+    [lookDirection]="lookDirection()"
+    [customImageStyle]="{ width: imageWidth() }"
+    [backgroundColor]="backgroundColor()" />
+  <div>
+    <div
+      [class]="{
+        'character-name': true,
+        'character-name--left': character().side === Side.DARK && !isWinner(),
+        'character-name--right': character().side === Side.LIGHT && !isWinner(),
+      }">
+      {{ character().name }}
+    </div>
+    @if (isWinner() && showBackButton()) {
+      <app-dynamic-button [text]="'Vissza a fedélzetre'" (onClick)="back()" />
+    } @else if (!isWinner()) {
+      <div class="progress">
+        <div
+          class="progress-bar"
+          [class.progress-bar--dark]="character().side === Side.DARK"
+          [class.progress-bar--light]="character().side === Side.LIGHT"
+          role="progressbar"
+          [style]="'width: ' + character().health + '%'"
+          [attr.aria-valuenow]="character().health"
+          aria-valuemin="0"
+          aria-valuemax="100"></div>
+        <div
+          class="progress-value"
+          [style]="'width: ' + character().health + '%'">
+          {{ character().health }} %
+        </div>
+      </div>
+    }
+  </div>
+</div>
