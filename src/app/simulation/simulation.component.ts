@@ -3,20 +3,21 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   inject,
-  OnDestroy,
   OnInit,
   Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { ScreenSize, screenSizeObservable } from '@app/@shared';
 import { CharacterService } from '@app/@shared/services/character.service';
 import { TimeService } from '@app/@shared/services/time.service';
 import { Direction, ExtendedCharacter, Side } from '@app/@types';
 import { PageShellComponent } from '@shared/page-shell/page-shell.component';
-import { filter, map, Observable, Subject, takeUntil } from 'rxjs';
+import { filter, map, Observable, Subscription } from 'rxjs';
 
 import { FighterComponent } from './fighter/fighter.component';
 
@@ -28,7 +29,7 @@ import { FighterComponent } from './fighter/fighter.component';
   styleUrl: './simulation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SimulationComponent implements OnInit, OnDestroy {
+export class SimulationComponent implements OnInit {
   characterService: CharacterService = inject(CharacterService);
   timeService: TimeService = inject(TimeService);
   characters: WritableSignal<ExtendedCharacter[]> = signal<ExtendedCharacter[]>(
@@ -71,7 +72,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     screenSizeObservable;
   protected readonly ScreenSize: typeof ScreenSize = ScreenSize;
   private router: Router = inject(Router);
-  private destroy$: Subject<void> = new Subject<void>();
+  private destroyRef: DestroyRef = inject(DestroyRef);
   private attackInterval: number = 2;
   private combatStartTime: number = 0;
 
@@ -82,12 +83,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     this.startCombat();
   }
 
-  ngOnDestroy(): void {
-    this.stopCombat();
-  }
-
   back(): void {
-    this.stopCombat();
     this.router.navigate(['charanter-select']);
   }
 
@@ -95,10 +91,10 @@ export class SimulationComponent implements OnInit, OnDestroy {
     this.combatStartTime = Math.floor(Date.now() / 1000);
     this.determineAttacker();
 
-    this.timeService
+    const timeSubscription: Subscription = this.timeService
       .getElapsedTime(this.combatStartTime)
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         filter(
           (elapsed: number): boolean =>
             elapsed % this.attackInterval === 0 && elapsed > 0
@@ -114,15 +110,10 @@ export class SimulationComponent implements OnInit, OnDestroy {
             this.currentTurn.set(turnCount);
             this.determineAttacker();
           } else {
-            this.stopCombat();
+            timeSubscription.unsubscribe();
           }
         }
       });
-  }
-
-  private stopCombat(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private determineAttacker(): void {
