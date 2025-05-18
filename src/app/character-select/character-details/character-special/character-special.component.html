@@ -1,23 +1,23 @@
 @if (purpose() === 'side') {
   <div class="special-power">
-    <div class="side-icon-container">
+    <div class="special-power__side-icon">
       @if (purpose() === 'side' && text() === 'sötét') {
-        <span class="side-icon-container--dark"></span>
+        <span class="special-power__side-icon--dark"></span>
       }
     </div>
-    <div class="text-container">
-      <div class="label">{{ title() }}</div>
-      <div class="value">{{ text() }}</div>
+    <div class="special-power__text">
+      <div class="special-power__label">{{ title() }}</div>
+      <div class="special-power__value">{{ text() }}</div>
     </div>
   </div>
 } @else {
   <div class="special-power">
-    <div class="star-icon-container">
+    <div class="special-power__star-icon">
       <img src="/assets/ui/star@3x.png" alt="star" />
     </div>
-    <div class="text-container">
-      <div class="label">{{ title() }}</div>
-      <div class="value">{{ text() }}</div>
+    <div class="special-power__text">
+      <div class="special-power__label">{{ title() }}</div>
+      <div class="special-power__value">{{ text() }}</div>
     </div>
   </div>
 }

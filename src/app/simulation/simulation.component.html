@@ -1,11 +1,11 @@
 <app-page-shell backgroundUrl="/assets/backgrounds/bg_3@2x.png">
-  <div class="simulation-content">
+  <div class="simulation">
     @let isMobile = (screenSizeObservable() | async) === ScreenSize.MOBILE;
-    <h1 class="title">
+    <h1 class="simulation__title">
       {{ winner() ? 'A csata nyertese' : 'A tudás legyen veled!' }}
     </h1>
     <div
-      class="body"
+      class="simulation__body"
       [ngStyle]="{
         'grid-template-columns': winner()
           ? '1fr'
@@ -15,11 +15,13 @@
       }">
       @let imageWidth =
         winner() ? (isMobile ? '200px' : '400px') : isMobile ? '50vw' : '100%';
-      @let dChar = darkCharacter();
-      @if (dChar && (!winner() || (winner() && winner()?.side === Side.DARK))) {
+      @let darkChar = darkCharacter();
+      @if (
+        darkChar && (!winner() || (winner() && winner()?.side === Side.DARK))
+      ) {
         <app-fighter
-          [character]="dChar"
-          [isAttacking]="attacker()?.id === dChar.id"
+          [character]="darkChar"
+          [isAttacking]="attacker()?.id === darkChar.id"
           [winner]="winner()"
           [defaultLookDirection]="Direction.RIGHT"
           [imageWidth]="imageWidth"
@@ -27,15 +29,15 @@
           (onBack)="back()" />
       }
       @if (!winner() && !isMobile) {
-        <div class="vs">vs</div>
+        <div class="simulation__vs">vs</div>
       }
-      @let lChar = lightCharacter();
+      @let lightChar = lightCharacter();
       @if (
-        lChar && (!winner() || (winner() && winner()?.side === Side.LIGHT))
+        lightChar && (!winner() || (winner() && winner()?.side === Side.LIGHT))
       ) {
         <app-fighter
-          [character]="lChar"
-          [isAttacking]="attacker()?.id === lChar.id"
+          [character]="lightChar"
+          [isAttacking]="attacker()?.id === lightChar.id"
           [winner]="winner()"
           [defaultLookDirection]="Direction.LEFT"
           [imageWidth]="imageWidth"

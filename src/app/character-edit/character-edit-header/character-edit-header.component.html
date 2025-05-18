@@ -1,0 +1,19 @@
+<div class="character-edit-header">
+  <button
+    class="character-edit-header__back-button btn"
+    (click)="backClicked.emit()"
+    aria-label="Back to character editing">
+    <img
+      class="character-edit-header__icon"
+      src="/assets/ui/chevron.png"
+      alt="Back arrow"
+      aria-hidden="true" />
+    <span class="character-edit-header__text"> Karakterek szerkesztése </span>
+  </button>
+  <app-dynamic-button
+    [text]="'Új karakter hozzáadása'"
+    [variant]="'outline'"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasRight"
+    (onClick)="addCharacterClicked.emit()" />
+</div>

@@ -1,6 +1,6 @@
 <div
   class="character-image-container"
-  [ngClass]="{ selectable: selectable() }"
+  [ngClass]="{ 'character-image-container--selectable': selectable() }"
   [ngStyle]="customImageStyle()"
   (click)="onClick()">
   <div

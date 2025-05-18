@@ -25,6 +25,8 @@ import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 
+import { CharacterEditHeaderComponent } from './character-edit-header/character-edit-header.component';
+
 type SortableValue = string | number;
 
 @Component({
@@ -35,6 +37,7 @@ type SortableValue = string | number;
     PageShellComponent,
     DynamicButtonComponent,
     CharacterSidebarComponent,
+    CharacterEditHeaderComponent,
   ],
   templateUrl: './character-edit.component.html',
   styleUrl: './character-edit.component.scss',

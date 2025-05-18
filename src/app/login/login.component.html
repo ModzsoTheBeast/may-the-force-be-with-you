@@ -1,24 +1,22 @@
 <div class="login">
   <section class="login__section">
-    <h2 class="login__section__subtitle">webstar</h2>
-    <h1 class="login__section__title">frontend</h1>
+    <h2 class="login__subtitle">webstar</h2>
+    <h1 class="login__title">frontend</h1>
     <form
-      class="login__section__form"
+      class="login__form"
       [formGroup]="loginForm"
       (ngSubmit)="login()"
       aria-labelledby="login-form-heading">
       <h2 id="login-form-heading" class="visually-hidden">Login Form</h2>
       @let usernameControl = loginForm.controls.username;
       @let passwordControl = loginForm.controls.password;
-      <div class="login__section__form__input-group input-group">
-        <label
-          class="login__section__form__input-group__label form-label"
-          for="username-input"
+      <div class="login__input-group input-group">
+        <label class="login__label form-label" for="username-input"
           >Felhasználónév</label
         >
         <input
           id="username-input"
-          class="login__section__form__input-group__input form-control"
+          class="login__input form-control"
           [formControl]="usernameControl"
           [class.is-invalid]="
             usernameControl.invalid && usernameControl.touched
@@ -31,36 +29,28 @@
             usernameControl.invalid && usernameControl.touched
           " />
         @if (usernameControl.hasError('required') && usernameControl.touched) {
-          <div
-            class="login__section__form__input-group__error invalid-feedback"
-            role="alert">
+          <div class="login__error invalid-feedback" role="alert">
             Kötelező!
           </div>
         }
         @if (usernameControl.hasError('email') && usernameControl.touched) {
-          <div
-            class="login__section__form__input-group__error invalid-feedback"
-            role="alert">
+          <div class="login__error invalid-feedback" role="alert">
             Invalid email format!
           </div>
         }
         @if (usernameControl.hasError('minlength') && usernameControl.touched) {
-          <div
-            class="login__section__form__input-group__error invalid-feedback"
-            role="alert">
+          <div class="login__error invalid-feedback" role="alert">
             Minimum 3 karakter!
           </div>
         }
       </div>
-      <div class="login__section__form__input-group input-group">
-        <label
-          class="login__section__form__input-group__label form-label"
-          for="password-input"
+      <div class="login__input-group input-group">
+        <label class="login__label form-label" for="password-input"
           >Jelszó</label
         >
         <input
           id="password-input"
-          class="login__section__form__input-group__input form-control"
+          class="login__input form-control"
           [formControl]="passwordControl"
           [class.is-invalid]="
             passwordControl.invalid && passwordControl.touched
@@ -73,16 +63,12 @@
             passwordControl.invalid && passwordControl.touched
           " />
         @if (passwordControl.hasError('required') && passwordControl.touched) {
-          <div
-            class="login__section__form__input-group__error invalid-feedback"
-            role="alert">
+          <div class="login__error invalid-feedback" role="alert">
             Kötelező!
           </div>
         }
         @if (passwordControl.hasError('minlength') && passwordControl.touched) {
-          <div
-            class="login__section__form__input-group__error invalid-feedback"
-            role="alert">
+          <div class="login__error invalid-feedback" role="alert">
             Minimum 3 karakter!
           </div>
         }

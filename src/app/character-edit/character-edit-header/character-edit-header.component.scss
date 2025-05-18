@@ -1,0 +1,35 @@
+.character-edit-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  &__back-button {
+    color: white;
+    font-size: 24px;
+    font-family: 'Poppins Black', sans-serif;
+    display: flex;
+    padding: 0;
+    align-items: center;
+    gap: 1rem;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 0.6;
+      border: none;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .character-edit-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1rem;
+  }
+}

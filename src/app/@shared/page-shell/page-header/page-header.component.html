@@ -1,14 +1,14 @@
 <div class="page-header">
-  <div class="page-header__user">
+  <div class="page-header__user-container">
     <img
-      class="page-header__user__icon"
+      class="page-header__user-icon"
       src="/assets/icons/user@3x.png"
       alt="User icon" />
-    <span class="page-header__user__name">
+    <span class="page-header__user-name">
       {{ user()?.firstName }} {{ user()?.lastName }}
     </span>
   </div>
-  <div class="page-header__logout">
+  <div class="page-header__logout-container">
     <app-dynamic-button
       [text]="'Űrhajó elhagyása'"
       [iconPostfix]="'logout.png'"

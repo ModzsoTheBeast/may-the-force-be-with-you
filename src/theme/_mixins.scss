@@ -17,9 +17,6 @@
   color: color.adjust($text-color, $lightness: -1 * $darken-amount);
 }
 
-@mixin darken-simple-button(
-  $text-color,
-  $darken-amount: theme.$darken-percet
-) {
+@mixin darken-simple-button($text-color, $darken-amount: theme.$darken-percet) {
   color: color.adjust($text-color, $lightness: -1 * $darken-amount);
 }

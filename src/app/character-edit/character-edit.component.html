@@ -1,26 +1,8 @@
 <app-page-shell>
   <div class="character-edit-content">
-    <div class="character-edit-content__header">
-      <button
-        class="character-edit__header__back-button btn"
-        (click)="back()"
-        aria-label="Back to character editing">
-        <img
-          class="character-edit__header__back-button__icon"
-          src="/assets/ui/chevron.png"
-          alt="Back arrow"
-          aria-hidden="true" />
-        <span class="character-edit__header__back-button__text">
-          Karakterek szerkesztése
-        </span>
-      </button>
-      <app-dynamic-button
-        [text]="'Új karakter hozzáadása'"
-        [variant]="'outline'"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasRight"
-        (onClick)="addCharacter()" />
-    </div>
+    <app-character-edit-header
+      (backClicked)="back()"
+      (addCharacterClicked)="addCharacter()" />
 
     <div class="table-responsive" #tableContainer>
       <table

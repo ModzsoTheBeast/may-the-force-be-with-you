@@ -1,13 +1,11 @@
 @if (hasActionButtons()) {
   <div class="swiper-nav">
-    <div class="swiper-nav__paginator">
+    <div class="swiper-nav__dots">
       @for (character of characters(); track character.id; let i = $index) {
         <div
-          class="swiper-nav__paginator__item"
+          class="swiper-nav__dot"
           (click)="slide(i)"
-          [class.swiper-nav__paginator__item--active]="
-            currentIndex() === i
-          "></div>
+          [class.swiper-nav__dot--active]="currentIndex() === i"></div>
       }
     </div>
     <button
@@ -15,7 +13,7 @@
       type="button"
       (click)="slidePrev()">
       <img
-        class="swiper-nav__button__image"
+        class="swiper-nav__icon"
         src="/assets/ui/arrow_circle.png"
         alt="prev-btn" />
     </button>
@@ -24,7 +22,7 @@
       type="button"
       (click)="slideNext()">
       <img
-        class="swiper-nav__button__image"
+        class="swiper-nav__icon"
         src="/assets/ui/arrow_circle.png"
         alt="next-btn" />
     </button>
@@ -42,8 +40,8 @@
   slides-per-view="1"
   space-between="30">
   @for (character of characters(); track character.id) {
-    <swiper-slide class="character-slide">
-      <div class="character-card">
+    <swiper-slide class="character-swiper__slide">
+      <div class="character-swiper__card">
         <app-character-image [characterId]="character.id" />
       </div>
     </swiper-slide>

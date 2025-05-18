@@ -7,22 +7,22 @@
   border-bottom: 1px solid white;
   height: 65px; //TODO: add to var
 
-  &__user {
+  &__user-container {
     display: flex;
     align-items: center;
     gap: 8px;
+  }
 
-    &__icon {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-    }
+  &__user-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
 
-    &__name {
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      font-family: "Poppins Bold", sans-serif;
-    }
+  &__user-name {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Poppins Bold', sans-serif;
   }
 }

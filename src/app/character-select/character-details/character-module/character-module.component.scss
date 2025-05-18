@@ -4,7 +4,7 @@
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 130px 3fr;
-  grid-column-gap: .5rem;
+  grid-column-gap: 0.5rem;
 
   &__title {
     font-weight: bold;

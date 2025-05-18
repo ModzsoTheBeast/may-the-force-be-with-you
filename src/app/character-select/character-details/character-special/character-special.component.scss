@@ -6,7 +6,7 @@
   flex-direction: row;
   width: fit-content;
 
-  .star-icon-container {
+  &__star-icon {
     background: orange;
     width: 60px;
     height: 60px;
@@ -21,13 +21,13 @@
     }
   }
 
-  .side-icon-container {
+  &__side-icon {
     background: white;
     width: 60px;
     height: 60px;
     position: relative;
 
-    .side-icon-container--dark {
+    &--dark {
       position: absolute;
       width: 40px;
       height: 40px;
@@ -36,40 +36,25 @@
       left: 10px;
     }
   }
-}
 
-.icon-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  background: white;
-}
+  &__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
-.star-icon {
-  color: #ffc107;
-  font-size: 24px;
-  font-weight: bold;
-}
+  &__label {
+    font-size: 1rem;
+    font-family: 'Poppins Bold', sans-serif;
+    font-weight: bold;
+    color: #ffc107;
+    text-transform: uppercase;
+  }
 
-.text-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.label {
-  font-size: 1rem;
-  font-family: 'Poppins Bold', sans-serif;
-  font-weight: bold;
-  color: #ffc107;
-  text-transform: uppercase;
-}
-
-.value {
-  font-size: 20px;
-  font-family: 'Poppins Black', sans-serif;
-  color: white;
-  font-weight: 500;
+  &__value {
+    font-size: 20px;
+    font-family: 'Poppins Black', sans-serif;
+    color: white;
+    font-weight: 500;
+  }
 }

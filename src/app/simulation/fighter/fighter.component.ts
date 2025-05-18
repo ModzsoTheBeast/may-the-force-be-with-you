@@ -31,8 +31,6 @@ export class FighterComponent {
   imageWidth: InputSignal<string> = input<string>('100%');
   backgroundColor: InputSignal<string> = input<string>('grey');
 
-  onBack: OutputEmitterRef<void> = output<void>();
-
   isWinner: Signal<boolean> = computed(
     () => !!this.winner() && this.winner()?.id === this.character().id
   );
@@ -45,8 +43,10 @@ export class FighterComponent {
   );
 
   showBackButton: Signal<boolean> = computed(
-    () => !!this.winner() && this.winner()?.id === this.character().id
+    (): boolean => !!this.winner() && this.winner()?.id === this.character().id
   );
+
+  onBack: OutputEmitterRef<void> = output<void>();
 
   protected readonly Side: typeof Side = Side;
 

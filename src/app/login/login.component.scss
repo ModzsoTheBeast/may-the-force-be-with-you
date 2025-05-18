@@ -17,56 +17,56 @@
     justify-content: center;
     height: 100%;
     overflow-y: auto;
+  }
 
-    &__title {
-      margin-bottom: 4.5rem;
-      color: white;
-      font-family: 'SF Distant Galaxy', sans-serif;
-      font-size: 70px;
-      letter-spacing: 2px;
+  &__title {
+    margin-bottom: 4.5rem;
+    color: white;
+    font-family: 'SF Distant Galaxy', sans-serif;
+    font-size: 70px;
+    letter-spacing: 2px;
+  }
+
+  &__subtitle {
+    color: white;
+    margin-bottom: 2rem;
+    font-family: 'Star Jedi', sans-serif;
+    font-size: 30px;
+  }
+
+  &__form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 400px;
+
+    app-dynamic-button {
+      margin-top: 1.5rem;
     }
+  }
 
-    &__subtitle {
-      color: white;
-      margin-bottom: 2rem;
-      font-family: 'Star Jedi', sans-serif;
-      font-size: 30px;
-    }
+  &__input-group {
+    justify-content: center;
+  }
 
-    &__form {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      gap: 1rem;
-      width: 400px;
+  &__label {
+    display: block;
+    color: white;
+    font-size: 14px;
+    font-family: 'Poppins Bold', sans-serif;
+    font-weight: bold;
+  }
 
-      &__input-group {
-        justify-content: center;
-
-        &__label {
-          display: block;
-          color: white;
-          font-size: 14px;
-          font-family: 'Poppins Bold', sans-serif;
-          font-weight: bold;
-        }
-
-        &__input {
-          padding: 10px;
-          border-radius: 4px;
-          text-align: center;
-          background-color: white;
-          width: 100%;
-          height: 45px;
-          font-size: 1rem;
-          font-family: 'Poppins Regular', sans-serif;
-        }
-      }
-
-      app-dynamic-button {
-        margin-top: 1.5rem;
-      }
-    }
+  &__input {
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    background-color: white;
+    width: 100%;
+    height: 45px;
+    font-size: 1rem;
+    font-family: 'Poppins Regular', sans-serif;
   }
 }
 
@@ -74,17 +74,17 @@
   .login__section {
     width: 100%;
     height: 100%;
-
-    &__subtitle {
-      font-size: 8vw;
-    }
-
-    &__title {
-      font-size: 12vw;
-    }
   }
 
-  .login__section__form {
+  .login__subtitle {
+    font-size: 8vw;
+  }
+
+  .login__title {
+    font-size: 12vw;
+  }
+
+  .login__form {
     width: 90%;
   }
 }
