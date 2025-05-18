@@ -13,7 +13,6 @@ export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-  // Inject the current `AuthService` and use it to get an authentication token:
   const authToken: string | null = inject(AuthService).getAuthToken();
 
   const headers: Record<string, string> = {
@@ -25,7 +24,6 @@ export const authInterceptor: HttpInterceptorFn = (
     headers['Application-Authorization'] = `Bearer ${authToken}`;
   }
 
-  // Clone the request to add the headers
   const clonedReq: HttpRequest<unknown> = req.clone({
     setHeaders: headers,
   });

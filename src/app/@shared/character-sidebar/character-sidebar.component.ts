@@ -6,6 +6,7 @@ import {
   effect,
   inject,
   input,
+  InputSignal,
   OnDestroy,
 } from '@angular/core';
 import {
@@ -13,6 +14,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { CharacterForm, ExtendedCharacter, Side } from '@app/@types';
 import { ElapsedTimePipe } from '@shared/pipes/elapsed-time.pipe';
@@ -39,27 +41,41 @@ import { TimeService } from '../services/time.service';
   styleUrl: './character-sidebar.component.scss',
 })
 export class CharacterSidebarComponent implements OnDestroy, AfterViewInit {
-  character = input<ExtendedCharacter | null>(null);
-  characterService = inject(CharacterService);
-  timeService = inject(TimeService);
-  characters = this.characterService.characters;
+  character: InputSignal<ExtendedCharacter | null> =
+    input<ExtendedCharacter | null>(null);
+  characterService: CharacterService = inject(CharacterService);
+  timeService: TimeService = inject(TimeService);
+  characters: ExtendedCharacter[] | undefined =
+    this.characterService.characters;
   elapsedSeconds$: Observable<number> | null = null;
   characterForm: FormGroup<CharacterForm> = new FormGroup<CharacterForm>({
-    avatar: new FormControl<string>('', { nonNullable: true }),
+    avatar: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
     power: new FormControl<string>('Erő használata', { nonNullable: true }),
-    description: new FormControl<string>('', { nonNullable: true }),
-    name: new FormControl<string>('', { nonNullable: true }),
+    description: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.maxLength(500)],
+    }),
+    name: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.maxLength(50)],
+    }),
     side: new FormControl<Side>(Side.DARK, { nonNullable: true }),
-    midiclorian: new FormControl<number>(0, { nonNullable: true }),
+    midiclorian: new FormControl<number>(0, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(0)],
+    }),
   });
-  protected readonly Side = Side;
+  protected readonly Side: typeof Side = Side;
   private timeSubscription: Subscription | null = null;
   private sidebarElement: HTMLElement | null = null;
   private readonly hideEventHandler: (() => void) | null = null;
 
   constructor() {
-    effect(() => {
-      const char = this.character();
+    effect((): void => {
+      const char: ExtendedCharacter | null = this.character();
       if (char) {
         this.unsubscribeFromTimeService();
         this.elapsedSeconds$ = this.timeService.getElapsedTime(
@@ -82,11 +98,9 @@ export class CharacterSidebarComponent implements OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Find the sidebar element (offcanvas)
     this.sidebarElement = document.querySelector('.offcanvas') as HTMLElement;
 
     if (this.sidebarElement && this.hideEventHandler) {
-      // Listen for the 'hide.bs.offcanvas' event
       this.sidebarElement.addEventListener(
         'hide.bs.offcanvas',
         this.hideEventHandler
@@ -97,7 +111,6 @@ export class CharacterSidebarComponent implements OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.unsubscribeFromTimeService();
 
-    // Clean up event listener
     if (this.sidebarElement && this.hideEventHandler) {
       this.sidebarElement.removeEventListener(
         'hide.bs.offcanvas',
@@ -106,40 +119,42 @@ export class CharacterSidebarComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  submit() {
+  submit(): void {
     if (this.characterForm.invalid) {
+      this.characterForm.markAllAsTouched();
       return;
     }
 
     const formValues = this.characterForm.getRawValue();
 
     if (this.character()) {
-      // Update existing character
-      const updatedCharacter = this.character();
+      const updatedCharacter: ExtendedCharacter | null = this.character();
       if (!updatedCharacter || !this.characterService.characters) {
         return;
       }
 
-      const updatedCharacters = this.characterService.characters.map(char => {
-        if (char.uuid === updatedCharacter.uuid) {
-          return {
-            ...char,
-            id: formValues.avatar,
-            name: formValues.name,
-            side: formValues.side,
-            description: formValues.description,
-            abilities: {
-              power: formValues.power,
-              midichlorian: formValues.midiclorian,
-            },
-          };
-        }
-        return char;
-      });
+      const updatedCharacters: ExtendedCharacter[] =
+        this.characterService.characters.map(
+          (char: ExtendedCharacter): ExtendedCharacter => {
+            if (char.uuid === updatedCharacter.uuid) {
+              return {
+                ...char,
+                id: formValues.avatar,
+                name: formValues.name,
+                side: formValues.side,
+                description: formValues.description,
+                abilities: {
+                  power: formValues.power,
+                  midichlorian: formValues.midiclorian,
+                },
+              };
+            }
+            return char;
+          }
+        );
 
       this.characterService.updateCharacters(updatedCharacters);
     } else {
-      // Create new character
       if (!this.characterService.characters) {
         return;
       }
@@ -160,14 +175,13 @@ export class CharacterSidebarComponent implements OnDestroy, AfterViewInit {
         uuid: uuidv4(),
       };
 
-      const updatedCharacters = [
+      const updatedCharacters: ExtendedCharacter[] = [
         ...this.characterService.characters,
         newCharacter,
       ];
       this.characterService.updateCharacters(updatedCharacters);
     }
 
-    // Close the sidebar after submission
     this.cancel();
   }
 

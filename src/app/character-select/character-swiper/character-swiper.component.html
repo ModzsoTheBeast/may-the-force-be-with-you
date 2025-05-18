@@ -1,7 +1,33 @@
 @if (hasActionButtons()) {
-  <div class="swiper-nav-buttons">
-    <button class="swiper-button-prev" (click)="slidePrev()"></button>
-    <button class="swiper-button-next" (click)="slideNext()"></button>
+  <div class="swiper-nav">
+    <div class="swiper-nav__paginator">
+      @for (character of characters(); track character.id; let i = $index) {
+        <div
+          class="swiper-nav__paginator__item"
+          (click)="slide(i)"
+          [class.swiper-nav__paginator__item--active]="
+            currentIndex() === i
+          "></div>
+      }
+    </div>
+    <button
+      class="btn swiper-nav__button swiper-nav__button--prev"
+      type="button"
+      (click)="slidePrev()">
+      <img
+        class="swiper-nav__button__image"
+        src="/assets/ui/arrow_circle.png"
+        alt="prev-btn" />
+    </button>
+    <button
+      class="btn swiper-nav__button swiper-nav__button--next"
+      type="button"
+      (click)="slideNext()">
+      <img
+        class="swiper-nav__button__image"
+        src="/assets/ui/arrow_circle.png"
+        alt="next-btn" />
+    </button>
   </div>
 }
 

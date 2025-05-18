@@ -13,47 +13,20 @@
             ? '1fr 1fr'
             : '2fr 1fr 2fr',
       }">
+      @let imageWidth =
+        winner() ? (isMobile ? '200px' : '400px') : isMobile ? '50vw' : '100%';
       @let dChar = darkCharacter();
       @if (dChar && (!winner() || (winner() && winner()?.side === Side.DARK))) {
-        <div class="char" [class.attacking]="attacker()?.id === dChar.id">
-          @if (!winner()) {
-            <div class="side">Sötét oldal</div>
-          }
-          <app-character-image
-            [characterId]="dChar.id"
-            [lookDirection]="winner() ? Direction.CENTER : Direction.RIGHT"
-            [customImageStyle]="{ width: '100%' }"
-            [backgroundColor]="'grey'" />
-          <div>
-            <div
-              [class]="{
-                'character-name': true,
-                'character-name--left': !winner(),
-              }">
-              {{ dChar.name }}
-            </div>
-            @if (winner()) {
-              <app-dynamic-button
-                [text]="'Vissza a fedélzetre'"
-                (onClick)="back()" />
-            } @else {
-              <div class="progress">
-                <div
-                  class="progress-bar progress-bar--dark"
-                  role="progressbar"
-                  [style]="'width: ' + dChar.health + '%'"
-                  [attr.aria-valuenow]="dChar.health"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-                <div
-                  class="progress-value"
-                  [style]="'width: ' + dChar.health + '%'">
-                  {{ dChar.health }} %
-                </div>
-              </div>
-            }
-          </div>
-        </div>
+        <app-fighter
+          [character]="dChar"
+          [isAttacking]="attacker()?.id === dChar.id"
+          [isWinner]="!!winner()"
+          [showSideName]="!winner()"
+          [lookDirection]="winner() ? Direction.CENTER : Direction.RIGHT"
+          [imageWidth]="imageWidth"
+          [backgroundColor]="'grey'"
+          [showBackButton]="!!winner()"
+          (onBack)="back()" />
       }
       @if (!winner() && !isMobile) {
         <div class="vs">vs</div>
@@ -62,45 +35,16 @@
       @if (
         lChar && (!winner() || (winner() && winner()?.side === Side.LIGHT))
       ) {
-        <div class="char" [class.attacking]="attacker()?.id === lChar.id">
-          @if (!winner()) {
-            <div class="side">Világos oldal</div>
-          }
-          <app-character-image
-            [characterId]="lChar.id"
-            [lookDirection]="winner() ? Direction.CENTER : Direction.LEFT"
-            [customImageStyle]="{ width: '100%' }"
-            [backgroundColor]="'white'" />
-          <div>
-            <div
-              [class]="{
-                'character-name': true,
-                'character-name--right': !winner(),
-              }">
-              {{ lChar.name }}
-            </div>
-            @if (winner()) {
-              <app-dynamic-button
-                [text]="'Vissza a fedélzetre'"
-                (onClick)="back()" />
-            } @else {
-              <div class="progress">
-                <div
-                  class="progress-bar progress-bar--light"
-                  role="progressbar"
-                  [style]="'width: ' + lChar.health + '%'"
-                  [attr.aria-valuenow]="lChar.health"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-                <div
-                  class="progress-value"
-                  [style]="'width: ' + lChar.health + '%'">
-                  {{ lChar.health }} %
-                </div>
-              </div>
-            }
-          </div>
-        </div>
+        <app-fighter
+          [character]="lChar"
+          [isAttacking]="attacker()?.id === lChar.id"
+          [isWinner]="!!winner()"
+          [showSideName]="!winner()"
+          [lookDirection]="winner() ? Direction.CENTER : Direction.LEFT"
+          [imageWidth]="imageWidth"
+          [backgroundColor]="'white'"
+          [showBackButton]="!!winner()"
+          (onBack)="back()" />
       }
     </div>
   </div>

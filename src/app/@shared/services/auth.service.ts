@@ -51,7 +51,6 @@ export class AuthService {
 
   getAuthToken(): string | null {
     const userData: AuthResponse | undefined = this.currentUserData();
-    console.log(userData);
     if (!userData) return null;
     return userData.token;
   }

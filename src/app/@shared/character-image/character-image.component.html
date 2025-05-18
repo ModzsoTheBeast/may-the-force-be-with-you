@@ -1,6 +1,7 @@
 <div
   class="character-image-container"
   [ngClass]="{ selectable: selectable() }"
+  [ngStyle]="customImageStyle()"
   (click)="onClick()">
   <div
     [ngClass]="{
@@ -21,6 +22,5 @@
   <img
     [src]="'/assets/characters/' + characterId() + '.png'"
     [alt]="characterId()"
-    [ngStyle]="customImageStyle()"
     class="character-image-container__image" />
 </div>

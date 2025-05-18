@@ -6,27 +6,24 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  Signal,
   signal,
+  WritableSignal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ScreenSize, screenSizeObservable } from '@app/@shared';
 import { CharacterService } from '@app/@shared/services/character.service';
 import { TimeService } from '@app/@shared/services/time.service';
 import { Direction, ExtendedCharacter, Side } from '@app/@types';
-import { CharacterImageComponent } from '@shared/character-image/character-image.component';
-import { DynamicButtonComponent } from '@shared/dynamic-button/dynamic-button.component';
 import { PageShellComponent } from '@shared/page-shell/page-shell.component';
-import { filter, map, Subject, takeUntil } from 'rxjs';
+import { filter, map, Observable, Subject, takeUntil } from 'rxjs';
+
+import { FighterComponent } from './fighter/fighter.component';
 
 @Component({
   selector: 'app-simulation',
-  imports: [
-    PageShellComponent,
-    CharacterImageComponent,
-    DynamicButtonComponent,
-    NgStyle,
-    AsyncPipe,
-  ],
+  standalone: true,
+  imports: [PageShellComponent, NgStyle, AsyncPipe, FighterComponent],
   templateUrl: './simulation.component.html',
   styleUrl: './simulation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,36 +31,53 @@ import { filter, map, Subject, takeUntil } from 'rxjs';
 export class SimulationComponent implements OnInit, OnDestroy {
   characterService: CharacterService = inject(CharacterService);
   timeService: TimeService = inject(TimeService);
-  characters = signal<ExtendedCharacter[]>([]);
-  currentTurn = signal<number>(0);
-  attacker = signal<ExtendedCharacter | null>(null);
-  lightCharacter = computed(() => {
-    return this.characters().find(char => char.side === Side.LIGHT);
-  });
-  darkCharacter = computed(() => {
-    return this.characters().find(char => char.side === Side.DARK);
-  });
-  winner = computed(() => {
-    const light = this.lightCharacter();
-    const dark = this.darkCharacter();
-
-    if (light && light.health <= 0) {
-      return dark;
-    } else if (dark && dark.health <= 0) {
-      return light;
+  characters: WritableSignal<ExtendedCharacter[]> = signal<ExtendedCharacter[]>(
+    []
+  );
+  currentTurn: WritableSignal<number> = signal<number>(0);
+  attacker: WritableSignal<ExtendedCharacter | null> =
+    signal<ExtendedCharacter | null>(null);
+  lightCharacter: Signal<ExtendedCharacter | undefined> = computed(
+    (): ExtendedCharacter | undefined => {
+      return this.characters().find(
+        (char: ExtendedCharacter): boolean => char.side === Side.LIGHT
+      );
     }
+  );
+  darkCharacter: Signal<ExtendedCharacter | undefined> = computed(
+    (): ExtendedCharacter | undefined => {
+      return this.characters().find(
+        (char: ExtendedCharacter): boolean => char.side === Side.DARK
+      );
+    }
+  );
+  winner: Signal<ExtendedCharacter | undefined | null> = computed(
+    (): ExtendedCharacter | undefined | null => {
+      const light: ExtendedCharacter | undefined = this.lightCharacter();
+      const dark: ExtendedCharacter | undefined = this.darkCharacter();
 
-    return null;
-  });
-  protected readonly Direction = Direction;
-  protected readonly Side = Side;
+      if (light && light.health <= 0) {
+        return dark;
+      } else if (dark && dark.health <= 0) {
+        return light;
+      }
+
+      return null;
+    }
+  );
+  protected readonly Direction: typeof Direction = Direction;
+  protected readonly Side: typeof Side = Side;
+  protected readonly screenSizeObservable: () => Observable<ScreenSize> =
+    screenSizeObservable;
+  protected readonly ScreenSize: typeof ScreenSize = ScreenSize;
   private router: Router = inject(Router);
-  private destroy$ = new Subject<void>();
-  private attackInterval = 2; // 2 seconds
+  private destroy$: Subject<void> = new Subject<void>();
+  private attackInterval: number = 2;
   private combatStartTime: number = 0;
 
   ngOnInit(): void {
-    const selectedCharacters = this.characterService.selectedCharacters();
+    const selectedCharacters: ExtendedCharacter[] | undefined =
+      this.characterService.selectedCharacters();
     this.characters.set(selectedCharacters || []);
     this.startCombat();
   }
@@ -72,7 +86,7 @@ export class SimulationComponent implements OnInit, OnDestroy {
     this.stopCombat();
   }
 
-  back() {
+  back(): void {
     this.stopCombat();
     this.router.navigate(['charanter-select']);
   }
@@ -85,10 +99,15 @@ export class SimulationComponent implements OnInit, OnDestroy {
       .getElapsedTime(this.combatStartTime)
       .pipe(
         takeUntil(this.destroy$),
-        filter(elapsed => elapsed % this.attackInterval === 0 && elapsed > 0),
-        map(elapsed => Math.floor(elapsed / this.attackInterval))
+        filter(
+          (elapsed: number): boolean =>
+            elapsed % this.attackInterval === 0 && elapsed > 0
+        ),
+        map((elapsed: number): number =>
+          Math.floor(elapsed / this.attackInterval)
+        )
       )
-      .subscribe(turnCount => {
+      .subscribe((turnCount: number) => {
         if (turnCount > this.currentTurn()) {
           if (!this.winner()) {
             this.attack();
@@ -107,9 +126,9 @@ export class SimulationComponent implements OnInit, OnDestroy {
   }
 
   private determineAttacker(): void {
-    const turn = this.currentTurn();
-    const light = this.lightCharacter();
-    const dark = this.darkCharacter();
+    const turn: number = this.currentTurn();
+    const light: ExtendedCharacter | undefined = this.lightCharacter();
+    const dark: ExtendedCharacter | undefined = this.darkCharacter();
 
     if (!light || !dark) return;
 
@@ -121,31 +140,30 @@ export class SimulationComponent implements OnInit, OnDestroy {
   }
 
   private attack(): void {
-    const attacker = this.attacker();
+    const attacker: ExtendedCharacter | null = this.attacker();
     if (!attacker) return;
 
-    const defender =
+    const defender: ExtendedCharacter | undefined =
       attacker.side === Side.LIGHT
         ? this.darkCharacter()
         : this.lightCharacter();
 
     if (!defender) return;
 
-    const damage = Math.floor(Math.random() * 10) + 10;
+    const damage: number = Math.floor(Math.random() * 10) + 10;
 
-    const updatedCharacters = this.characters().map(char => {
-      if (char.id === defender.id) {
-        return {
-          ...char,
-          health: Math.max(0, char.health - damage),
-        };
+    const updatedCharacters: ExtendedCharacter[] = this.characters().map(
+      (char: ExtendedCharacter): ExtendedCharacter => {
+        if (char.id === defender.id) {
+          return {
+            ...char,
+            health: Math.max(0, char.health - damage),
+          };
+        }
+        return char;
       }
-      return char;
-    });
+    );
 
     this.characters.set(updatedCharacters);
   }
-
-  protected readonly screenSizeObservable = screenSizeObservable;
-  protected readonly ScreenSize = ScreenSize;
 }

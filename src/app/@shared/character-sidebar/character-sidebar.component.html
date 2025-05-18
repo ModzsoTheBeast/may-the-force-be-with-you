@@ -1,5 +1,5 @@
 <div class="offcanvas-header">
-  <h5 class="offcanvas-header__title">
+  <h5 class="offcanvas-header__title" id="offcanvasRightLabel">
     Karakter {{ character() ? 'hozzáadása' : 'szerkesztése' }}
   </h5>
   <button
@@ -9,10 +9,16 @@
     aria-label="Close"></button>
 </div>
 <div class="offcanvas-body">
-  <form (ngSubmit)="submit()">
+  <form (ngSubmit)="submit()" aria-labelledby="character-form-heading">
+    <h2 id="character-form-heading" class="visually-hidden">Character Form</h2>
     <div class="input-group mb-3">
-      <label class="form-label">Avatár kiválasztása</label>
-      <div class="d-flex flex-row g-1 overflow-x-auto">
+      <label class="form-label" id="avatar-group-label"
+        >Avatár kiválasztása</label
+      >
+      <div
+        class="d-flex flex-row g-1 overflow-x-auto"
+        role="radiogroup"
+        aria-labelledby="avatar-group-label">
         @for (character of characters; track character.uuid) {
           @let selectedCharPicture =
             characterForm.controls.avatar.value === character.id;
@@ -23,9 +29,18 @@
             [customImageStyle]="{ padding: 0, width: '100px' }"
             (onClickEvent)="
               this.characterForm.controls.avatar.setValue(character.id)
-            " />
+            "
+            role="radio"
+            [attr.aria-checked]="selectedCharPicture"
+            [attr.aria-label]="'Avatar ' + character.id" />
         }
       </div>
+      @if (
+        characterForm.controls.avatar.hasError('required') &&
+        characterForm.controls.avatar.touched
+      ) {
+        <div class="invalid-feedback d-block" role="alert">Kötelező!</div>
+      }
     </div>
     <div class="input-grid">
       @let nameControl = characterForm.controls.name;
@@ -38,10 +53,15 @@
           id="name-input"
           class="form-control"
           [formControl]="nameControl"
-          [class.is-invalid]="nameControl.invalid && !nameControl.untouched"
-          type="text" />
-        @if (nameControl.hasError('required') && !nameControl.untouched) {
-          <div class="invalid-feedback">Kötelező!</div>
+          [class.is-invalid]="nameControl.invalid && nameControl.touched"
+          type="text"
+          aria-required="true"
+          [attr.aria-invalid]="nameControl.invalid && nameControl.touched" />
+        @if (nameControl.hasError('required') && nameControl.touched) {
+          <div class="invalid-feedback" role="alert">Kötelező!</div>
+        }
+        @if (nameControl.hasError('maxlength') && nameControl.touched) {
+          <div class="invalid-feedback" role="alert">Maximum 50 karakter!</div>
         }
       </div>
 
@@ -50,7 +70,8 @@
         <select
           class="form-select"
           id="side-select"
-          [formControl]="sideControl">
+          [formControl]="sideControl"
+          aria-required="true">
           <option [value]="Side.DARK">Sötét</option>
           <option [value]="Side.LIGHT">Világos</option>
         </select>
@@ -61,7 +82,8 @@
         <select
           class="form-select"
           id="power-select"
-          [formControl]="powerControl">
+          [formControl]="powerControl"
+          aria-required="true">
           <option [value]="'Erő használata'">Erő használata</option>
           <option [value]="'Kibernetikus test'">Kibernetikus test</option>
           <option [value]="'Harcászati tapasztalat'">
@@ -80,14 +102,20 @@
           class="form-control"
           [formControl]="midiclorianControl"
           [class.is-invalid]="
-            midiclorianControl.invalid && !midiclorianControl.untouched
+            midiclorianControl.invalid && midiclorianControl.touched
           "
-          type="text" />
+          type="text"
+          aria-required="true"
+          [attr.aria-invalid]="
+            midiclorianControl.invalid && midiclorianControl.touched
+          " />
         @if (
-          midiclorianControl.hasError('required') &&
-          !midiclorianControl.untouched
+          midiclorianControl.hasError('required') && midiclorianControl.touched
         ) {
-          <div class="invalid-feedback">Kötelező!</div>
+          <div class="invalid-feedback" role="alert">Kötelező!</div>
+        }
+        @if (midiclorianControl.hasError('min') && midiclorianControl.touched) {
+          <div class="invalid-feedback" role="alert">Nem lehet negatív!</div>
         }
       </div>
     </div>
@@ -98,7 +126,21 @@
         class="form-control"
         id="description-label"
         rows="3"
-        [formControl]="characterForm.controls.description"></textarea>
+        [formControl]="characterForm.controls.description"
+        [class.is-invalid]="
+          characterForm.controls.description.invalid &&
+          characterForm.controls.description.touched
+        "
+        [attr.aria-invalid]="
+          characterForm.controls.description.invalid &&
+          characterForm.controls.description.touched
+        "></textarea>
+      @if (
+        characterForm.controls.description.hasError('maxlength') &&
+        characterForm.controls.description.touched
+      ) {
+        <div class="invalid-feedback" role="alert">Maximum 500 karakter!</div>
+      }
     </div>
 
     @let char = character();

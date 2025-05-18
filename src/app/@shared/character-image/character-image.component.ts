@@ -3,7 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
+  InputSignal,
   output,
+  OutputEmitterRef,
 } from '@angular/core';
 import { Direction, Side } from '@app/@types';
 
@@ -15,20 +17,20 @@ import { Direction, Side } from '@app/@types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterImageComponent {
-  characterId = input.required<string>();
-  lookDirection = input<Direction>(Direction.LEFT);
-  backgroundColor = input<string>('yellow');
-  hasBackground = input<boolean>(true);
-  selectable = input<boolean>(false);
-  customImageStyle = input<Record<string, string | number> | null | undefined>(
-    null
-  );
-  onClickEvent = output<void>();
+  characterId: InputSignal<string> = input.required<string>();
+  lookDirection: InputSignal<Direction> = input<Direction>(Direction.LEFT);
+  backgroundColor: InputSignal<string> = input<string>('yellow');
+  hasBackground: InputSignal<boolean> = input<boolean>(true);
+  selectable: InputSignal<boolean> = input<boolean>(false);
+  customImageStyle: InputSignal<
+    Record<string, string | number> | null | undefined
+  > = input<Record<string, string | number> | null | undefined>(null);
+  onClickEvent: OutputEmitterRef<void> = output<void>();
 
-  protected readonly Direction = Direction;
-  protected readonly Side = Side;
+  protected readonly Direction: typeof Direction = Direction;
+  protected readonly Side: typeof Side = Side;
 
-  onClick() {
+  onClick(): void {
     this.onClickEvent.emit();
   }
 }

@@ -29,9 +29,13 @@ import { CharacterService } from '@shared/services/character.service';
 })
 export class CharacterSelectComponent {
   characters: Signal<ExtendedCharacter[] | undefined>;
-  visibleCharacter = computed(() => {
-    return this.characters()?.find(char => char.visible) as ExtendedCharacter;
-  });
+  visibleCharacter: Signal<ExtendedCharacter> = computed(
+    (): ExtendedCharacter => {
+      return this.characters()?.find(
+        (char: ExtendedCharacter): boolean => char.visible
+      ) as ExtendedCharacter;
+    }
+  );
 
   private characterService: CharacterService;
 
@@ -40,14 +44,16 @@ export class CharacterSelectComponent {
     this.characters = this.characterService.loadCharacters();
   }
 
-  onSwipe(event: number) {
-    const chars = this.characters();
+  onSwipe(event: number): void {
+    const chars: ExtendedCharacter[] | undefined = this.characters();
     if (!chars) return;
 
-    const updatedChars = chars.map((char, index) => ({
-      ...char,
-      visible: index === event,
-    }));
+    const updatedChars: ExtendedCharacter[] = chars.map(
+      (char: ExtendedCharacter, index: number): ExtendedCharacter => ({
+        ...char,
+        visible: index === event,
+      })
+    );
 
     this.characterService.updateCharacters(updatedChars);
   }

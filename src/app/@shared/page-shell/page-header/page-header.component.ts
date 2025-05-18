@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Signal,
+} from '@angular/core';
 import { AuthService } from '@app/@shared/services/auth.service';
+import { User } from '@app/@types';
 import { DynamicButtonComponent } from '@shared/dynamic-button/dynamic-button.component';
 
 @Component({
@@ -13,7 +19,7 @@ import { DynamicButtonComponent } from '@shared/dynamic-button/dynamic-button.co
 })
 export class PageHeaderComponent {
   authService: AuthService = inject(AuthService);
-  user = this.authService.user;
+  user: Signal<User | undefined> = this.authService.user;
 
   logout(): void {
     this.authService.logout();

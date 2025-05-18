@@ -5,7 +5,9 @@
     <form
       class="login__section__form"
       [formGroup]="loginForm"
-      (ngSubmit)="login()">
+      (ngSubmit)="login()"
+      aria-labelledby="login-form-heading">
+      <h2 id="login-form-heading" class="visually-hidden">Login Form</h2>
       @let usernameControl = loginForm.controls.username;
       @let passwordControl = loginForm.controls.password;
       <div class="login__section__form__input-group input-group">
@@ -22,22 +24,30 @@
             usernameControl.invalid && usernameControl.touched
           "
           type="text"
-          placeholder="mail@example.com" />
+          autocomplete="current-username"
+          placeholder="mail@example.com"
+          aria-required="true"
+          [attr.aria-invalid]="
+            usernameControl.invalid && usernameControl.touched
+          " />
         @if (usernameControl.hasError('required') && usernameControl.touched) {
           <div
-            class="login__section__form__input-group__error invalid-feedback">
+            class="login__section__form__input-group__error invalid-feedback"
+            role="alert">
             Kötelező!
           </div>
         }
         @if (usernameControl.hasError('email') && usernameControl.touched) {
           <div
-            class="login__section__form__input-group__error invalid-feedback">
+            class="login__section__form__input-group__error invalid-feedback"
+            role="alert">
             Invalid email format!
           </div>
         }
         @if (usernameControl.hasError('minlength') && usernameControl.touched) {
           <div
-            class="login__section__form__input-group__error invalid-feedback">
+            class="login__section__form__input-group__error invalid-feedback"
+            role="alert">
             Minimum 3 karakter!
           </div>
         }
@@ -55,17 +65,24 @@
           [class.is-invalid]="
             passwordControl.invalid && passwordControl.touched
           "
+          autocomplete="current-password"
           type="password"
-          placeholder="************" />
+          placeholder="************"
+          aria-required="true"
+          [attr.aria-invalid]="
+            passwordControl.invalid && passwordControl.touched
+          " />
         @if (passwordControl.hasError('required') && passwordControl.touched) {
           <div
-            class="login__section__form__input-group__error invalid-feedback">
+            class="login__section__form__input-group__error invalid-feedback"
+            role="alert">
             Kötelező!
           </div>
         }
         @if (passwordControl.hasError('minlength') && passwordControl.touched) {
           <div
-            class="login__section__form__input-group__error invalid-feedback">
+            class="login__section__form__input-group__error invalid-feedback"
+            role="alert">
             Minimum 3 karakter!
           </div>
         }

@@ -1,4 +1,4 @@
-import { fromEvent, map, startWith } from 'rxjs';
+import { fromEvent, map, Observable, startWith } from 'rxjs';
 
 export const BREAKPOINTS = {
   MOBILE: 600, // Mobile view breakpoint (< 600px)
@@ -13,7 +13,7 @@ export enum ScreenSize {
 }
 
 export function getCurrentScreenSize(): ScreenSize {
-  const width = window.innerWidth;
+  const width: number = window.innerWidth;
 
   if (width < BREAKPOINTS.MOBILE) {
     return ScreenSize.MOBILE;
@@ -29,7 +29,7 @@ export function isMobile(): boolean {
 }
 
 export function isTablet(): boolean {
-  const width = window.innerWidth;
+  const width: number = window.innerWidth;
   return width >= BREAKPOINTS.MOBILE && width < BREAKPOINTS.TABLET;
 }
 
@@ -37,9 +37,9 @@ export function isDesktop(): boolean {
   return window.innerWidth >= BREAKPOINTS.DESKTOP;
 }
 
-export function screenSizeObservable() {
+export function screenSizeObservable(): Observable<ScreenSize> {
   return fromEvent(window, 'resize').pipe(
     startWith(null),
-    map(() => getCurrentScreenSize())
+    map((): ScreenSize => getCurrentScreenSize())
   );
 }

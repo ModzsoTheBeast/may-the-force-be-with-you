@@ -15,18 +15,22 @@
   [style.background-color]="
     variant() !== 'outline' && variant() !== 'simple' ? backgroundColor() : null
   "
-  [style.border-color]="variant() === 'outline' ? backgroundColor() : null">
+  [style.border-color]="variant() === 'outline' ? backgroundColor() : null"
+  [attr.aria-label]="text()"
+  [attr.aria-disabled]="disabled()">
   @if (iconPrefix()) {
     <img
       [src]="'assets/icons/' + iconPrefix()"
       class="dynamic-button__icon dynamic-button__icon--prefix"
-      alt="Icon" />
+      [alt]="text() + ' prefix icon'"
+      aria-hidden="true" />
   }
   <span class="dynamic-button__text">{{ text() }}</span>
   @if (iconPostfix()) {
     <img
       [src]="'assets/icons/' + iconPostfix()"
       class="dynamic-button__icon dynamic-button__icon--postfix"
-      alt="Icon" />
+      [alt]="text() + ' postfix icon'"
+      aria-hidden="true" />
   }
 </button>

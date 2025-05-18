@@ -3,11 +3,13 @@
     <div class="character-edit-content__header">
       <button
         class="character-edit__header__back-button btn d-flex p-0 align-items-center gap-2"
-        (click)="back()">
+        (click)="back()"
+        aria-label="Back to character editing">
         <img
           class="character-edit__header__back-button__icon"
           src="/assets/ui/chevron.png"
-          alt="back-button" />
+          alt="Back arrow"
+          aria-hidden="true" />
         <span class="character-edit__header__back-button__text">
           Karakterek szerkesztése
         </span>
@@ -21,14 +23,19 @@
     </div>
 
     <div class="table-responsive">
-      <table class="table table-sm table-dark table-hover">
+      <table
+        class="table table-sm table-dark table-hover"
+        aria-label="Character list">
         <thead>
           <tr>
             <th
               scope="col"
               style="width: 25%"
               (click)="sort('name')"
-              [attr.aria-sort]="getSortDirection('name')">
+              [attr.aria-sort]="getSortDirection('name')"
+              tabindex="0"
+              role="button"
+              aria-label="Sort by name">
               <span class="th-cell">
                 <span> NÉV </span>
                 @if (isSortedColumn('name')) {
@@ -42,7 +49,10 @@
               scope="col"
               style="width: 12%"
               (click)="sort('side')"
-              [attr.aria-sort]="getSortDirection('side')">
+              [attr.aria-sort]="getSortDirection('side')"
+              tabindex="0"
+              role="button"
+              aria-label="Sort by side">
               <span class="th-cell">
                 <span> OLDAL </span>
                 @if (isSortedColumn('side')) {
@@ -56,7 +66,10 @@
               scope="col"
               style="width: 20%"
               (click)="sort('power')"
-              [attr.aria-sort]="getSortDirection('power')">
+              [attr.aria-sort]="getSortDirection('power')"
+              tabindex="0"
+              role="button"
+              aria-label="Sort by power">
               <span class="th-cell">
                 <span> KÜLÖNLEGES ERŐ </span>
                 @if (isSortedColumn('power')) {
@@ -70,7 +83,10 @@
               scope="col"
               style="width: 15%"
               (click)="sort('midichlorian')"
-              [attr.aria-sort]="getSortDirection('midichlorian')">
+              [attr.aria-sort]="getSortDirection('midichlorian')"
+              tabindex="0"
+              role="button"
+              aria-label="Sort by midichlorian">
               <span class="th-cell">
                 <span> MIDIKLORIÁN </span>
                 @if (isSortedColumn('midichlorian')) {
@@ -87,7 +103,7 @@
           @for (character of characters(); track character.uuid) {
             <tr>
               <td>{{ character.name }}</td>
-              <td>{{ character.side === 'DARK' ? 'Sötét' : 'Világos' }}</td>
+              <td>{{ character.side === Side.DARK ? 'Sötét' : 'Világos' }}</td>
               <td>{{ character.abilities.power }}</td>
               <td>{{ character.abilities.midichlorian }}</td>
               <td class="actions">
@@ -97,23 +113,18 @@
                     variant="simple"
                     (onClick)="copyCharacter(character)"
                     textColor="white" />
-                  <!--                  <button-->
-                  <!--                    class="btn button&#45;&#45;copy"-->
-                  <!--                    (click)="copyCharacter(character)">-->
-                  <!--                    Másolás-->
-                  <!--                  </button>-->
-                  <button
-                    class="btn button--edit"
+                  <app-dynamic-button
+                    text="Módosítás"
+                    variant="simple"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight"
-                    (click)="editCharacter(character)">
-                    Módosítás
-                  </button>
-                  <button
-                    class="btn button--delete"
-                    (click)="deleteCharacter(character)">
-                    Törlés
-                  </button>
+                    (onClick)="editCharacter(character)"
+                    textColor="#f7b500" />
+                  <app-dynamic-button
+                    text="Törlés"
+                    variant="simple"
+                    (onClick)="deleteCharacter(character)"
+                    textColor="#ff3232" />
                 </div>
               </td>
             </tr>

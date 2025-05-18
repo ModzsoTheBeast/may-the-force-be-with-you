@@ -17,13 +17,15 @@ const defaultOptions: Partial<ToastOptions> = {
   position: 'top-right',
 };
 
-export const showToast = (options: ToastOptions): void => {
+export const showToast: (options: ToastOptions) => void = (
+  options: ToastOptions
+): void => {
   const { message, duration, type, position } = {
     ...defaultOptions,
     ...options,
   };
 
-  const toast = document.createElement('div');
+  const toast: HTMLDivElement = document.createElement('div');
   toast.className = 'toast show';
   toast.style.position = 'fixed';
   toast.style.zIndex = '1000';
@@ -50,7 +52,6 @@ export const showToast = (options: ToastOptions): void => {
       break;
   }
 
-  // Set position
   switch (position) {
     case 'top-left':
       toast.style.top = '20px';
@@ -83,7 +84,7 @@ export const showToast = (options: ToastOptions): void => {
 
   document.body.appendChild(toast);
 
-  setTimeout(() => {
+  setTimeout((): void => {
     toast.remove();
   }, duration);
 };

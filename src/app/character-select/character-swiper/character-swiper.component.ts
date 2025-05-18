@@ -4,14 +4,21 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
+  HostListener,
   input,
+  InputSignal,
   OnInit,
   output,
+  OutputEmitterRef,
+  Signal,
+  signal,
   viewChild,
+  WritableSignal,
 } from '@angular/core';
 import { ExtendedCharacter } from '@app/@types';
 import { CharacterImageComponent } from '@shared/character-image/character-image.component';
 import { register, SwiperContainer } from 'swiper/element';
+import { Swiper } from 'swiper/types';
 
 @Component({
   selector: 'app-character-swiper',
@@ -22,63 +29,61 @@ import { register, SwiperContainer } from 'swiper/element';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterSwiperComponent implements OnInit, AfterViewInit {
-  swiperContainer =
+  swiperContainer: Signal<ElementRef<SwiperContainer>> =
     viewChild.required<ElementRef<SwiperContainer>>('swiperContainer');
-  characters = input.required<ExtendedCharacter[]>();
-  onSwipeEvent = output<number>();
-  hasActionButtons = input<boolean>(true);
-  
+  characters: InputSignal<ExtendedCharacter[]> =
+    input.required<ExtendedCharacter[]>();
+  onSwipeEvent: OutputEmitterRef<number> = output<number>();
+  hasActionButtons: InputSignal<boolean> = input<boolean>(true);
+  currentIndex: WritableSignal<number> = signal<number>(0);
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    if (event.key === 'ArrowLeft') {
+      this.slidePrev();
+    } else if (event.key === 'ArrowRight') {
+      this.slideNext();
+    }
+  }
+
   ngOnInit(): void {
     register();
   }
 
-  ngAfterViewInit() {
-    const container = this.swiperContainer();
+  ngAfterViewInit(): void {
+    const container: ElementRef<SwiperContainer> = this.swiperContainer();
     if (container) {
-      const swiper = container.nativeElement.swiper;
+      const swiper: Swiper = container.nativeElement.swiper;
 
       if (!swiper) {
         console.error('Swiper not initialized properly');
         return;
       }
 
-      swiper.on('slideChange', () => {
-        const currentIndex = container.nativeElement.swiper.activeIndex;
-        this.onSwipeEvent.emit(currentIndex);
+      swiper.on('slideChange', (swiper: Swiper) => {
+        this.currentIndex.set(swiper.activeIndex);
+        this.onSwipeEvent.emit(this.currentIndex());
       });
     }
   }
 
   slidePrev(): void {
-    const container = this.swiperContainer();
+    const container: ElementRef<SwiperContainer> = this.swiperContainer();
     if (container && container.nativeElement.swiper) {
       container.nativeElement.swiper.slidePrev();
-      const swiper = container.nativeElement.swiper;
-
-      if (!swiper) {
-        console.error('Swiper not initialized properly');
-        return;
-      }
-
-      const currentIndex = container.nativeElement.swiper.activeIndex;
-      this.onSwipeEvent.emit(currentIndex);
-
     }
   }
 
   slideNext(): void {
-    const container = this.swiperContainer();
+    const container: ElementRef<SwiperContainer> = this.swiperContainer();
     if (container && container.nativeElement.swiper) {
       container.nativeElement.swiper.slideNext();
-      const swiper = container.nativeElement.swiper;
+    }
+  }
 
-      if (!swiper) {
-        console.error('Swiper not initialized properly');
-        return;
-      }
-
-      const currentIndex = container.nativeElement.swiper.activeIndex;
-      this.onSwipeEvent.emit(currentIndex);
+  slide(index: number) {
+    const container: ElementRef<SwiperContainer> = this.swiperContainer();
+    if (container && container.nativeElement.swiper) {
+      container.nativeElement.swiper.slideTo(index);
     }
   }
 }

@@ -13,33 +13,7 @@
   width: 100%;
   overflow-y: auto;
   height: calc(100% - 72px);
-}
-
-.char {
-  text-align: center;
-  transition: transform 0.3s ease;
-  position: relative;
-
-  &.attacking {
-    animation: pulse 2s infinite;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-  }
-
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-  }
-
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-  }
+  padding: 1rem;
 }
 
 .title {
@@ -49,31 +23,15 @@
   text-align: center;
 }
 
-.character-name {
-  font-family: 'Star Jedi', monospace;
-  font-size: 40px;
-  color: white;
-
-  &--left {
-    text-align: left;
-  }
-
-  &--right {
-    text-align: right;
-  }
-}
-
 @media (max-width: 600px) {
   .title {
     font-size: 12vw;
   }
 
-  .character-name {
-    font-size: 8vw;
-  }
-
   .body {
-    width: 90vw;
+    width: 100vw;
+    gap: 0;
+    padding: 0;
   }
 }
 
@@ -82,49 +40,6 @@
   font-size: 150px;
   text-transform: uppercase;
   color: white;
-}
-
-.percent,
-.side {
-  font-size: 24px;
-  font-family: 'Poppins Black', sans-serif;
-  color: white;
-}
-
-.progress {
-  width: 100%;
-  background-color: #333;
-  border-radius: 4px;
-  margin-top: 10px;
-  overflow: visible;
-  position: relative;
-}
-
-.progress-bar {
-  height: 20px;
-  text-align: center;
-  transition: width 0.5s ease-in-out;
-  border-radius: 4px;
-
-  &--dark {
-    background-color: col.$red;
-  }
-
-  &--light {
-    background-color: col.$yellow;
-  }
-}
-
-.progress-value {
-  position: absolute;
-  text-align: right;
-  color: white;
-  top: 25px;
-  font-size: 24px;
-  font-family: 'Poppins Bold', sans-serif;
-  padding-right: 5px;
-  box-sizing: border-box;
-  min-width: fit-content;
 }
 
 .combat-status {

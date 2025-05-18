@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   input,
+  InputSignal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExtendedCharacter, Side } from '@app/@types';
@@ -26,45 +27,52 @@ import { showToast } from '@shared/utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterDetailsComponent {
-  visibleCharacter = input.required<ExtendedCharacter>();
+  visibleCharacter: InputSignal<ExtendedCharacter> =
+    input.required<ExtendedCharacter>();
   router: Router = inject(Router);
   simulateService: SimulateService = inject(SimulateService);
   characterService: CharacterService = inject(CharacterService);
-  protected readonly Side = Side;
+  protected readonly Side: typeof Side = Side;
 
-  selectCharacter() {
-    const characters = this.characterService.characters;
+  selectCharacter(): void {
+    const characters: ExtendedCharacter[] | undefined =
+      this.characterService.characters;
     if (!characters) return;
 
-    const selectedCharacter = this.visibleCharacter();
+    const selectedCharacter: ExtendedCharacter = this.visibleCharacter();
 
-    const updatedChars = characters.map(char => {
-      let selected = char.selected;
+    const updatedChars: ExtendedCharacter[] = characters.map(
+      (char: ExtendedCharacter): ExtendedCharacter => {
+        let selected: boolean = char.selected;
 
-      if (char.id === selectedCharacter.id) {
-        selected = true;
-      } else if (char.side === selectedCharacter.side) {
-        selected = false;
+        if (char.id === selectedCharacter.id) {
+          selected = true;
+        } else if (char.side === selectedCharacter.side) {
+          selected = false;
+        }
+
+        return {
+          ...char,
+          selected,
+        };
       }
-
-      return {
-        ...char,
-        selected,
-      };
-    });
+    );
 
     this.characterService.updateCharacters(updatedChars);
   }
 
-  startSimulation() {
-    const characters = this.characterService.characters;
+  startSimulation(): void {
+    const characters: ExtendedCharacter[] | undefined =
+      this.characterService.characters;
     if (!characters) return;
 
-    const lightCharacter = characters.find(
-      char => char.selected && char.side === Side.LIGHT
+    const lightCharacter: ExtendedCharacter | undefined = characters.find(
+      (char: ExtendedCharacter): boolean =>
+        char.selected && char.side === Side.LIGHT
     );
-    const darkCharacter = characters.find(
-      char => char.selected && char.side === Side.DARK
+    const darkCharacter: ExtendedCharacter | undefined = characters.find(
+      (char: ExtendedCharacter): boolean =>
+        char.selected && char.side === Side.DARK
     );
 
     if (!lightCharacter || !darkCharacter) {
@@ -76,7 +84,6 @@ export class CharacterDetailsComponent {
       return;
     }
 
-    // Create simulation request
     const request: SimulateRequest = {
       light: lightCharacter.id,
       dark: darkCharacter.id,
@@ -87,7 +94,7 @@ export class CharacterDetailsComponent {
     });
   }
 
-  editCharacters() {
+  editCharacters(): void {
     this.router.navigate(['character-edit']);
   }
 }

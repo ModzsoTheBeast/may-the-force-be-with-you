@@ -9,9 +9,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { isMobile, ScreenSize, screenSizeObservable } from '@app/@shared';
+import { ScreenSize, screenSizeObservable } from '@app/@shared';
 import { AuthResponse, LoginForm } from '@app/@types';
 import { AuthService } from '@shared/services/auth.service';
+import { Observable } from 'rxjs';
 
 import { DynamicButtonComponent } from '../@shared/dynamic-button/dynamic-button.component';
 
@@ -41,11 +42,16 @@ export class LoginComponent {
     }),
   });
 
+  protected readonly screenSizeObservable: () => Observable<ScreenSize> =
+    screenSizeObservable;
+  protected readonly ScreenSize: typeof ScreenSize = ScreenSize;
+
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
 
   login(): void {
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       return;
     }
 
@@ -62,14 +68,10 @@ export class LoginComponent {
             console.warn('something went wrong!');
           }
         },
-        error: (err: HttpErrorResponse) => {
+        error: (err: HttpErrorResponse): void => {
           console.error(err.message);
           this.router.navigate(['character-select']);
         },
       });
   }
-
-  protected readonly isMobile = isMobile;
-  protected readonly screenSizeObservable = screenSizeObservable;
-  protected readonly ScreenSize = ScreenSize;
 }
